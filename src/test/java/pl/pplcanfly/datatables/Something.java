@@ -4,25 +4,25 @@ public class Something {
     private String foo;
     private int bar;
 
-    public Something(String name, int age) {
-        this.foo = name;
-        this.bar = age;
+    public Something(String foo, int bar) {
+        this.foo = foo;
+        this.bar = bar;
     }
-
+    
     public String getFoo() {
         return foo;
     }
 
-    public void setFoo(String name) {
-        this.foo = name;
+    public void setFoo(String foo) {
+        this.foo = foo;
     }
 
     public int getBar() {
         return bar;
     }
 
-    public void setBar(int age) {
-        this.bar = age;
+    public void setBar(int bar) {
+        this.bar = bar;
     }
 
     @Override
