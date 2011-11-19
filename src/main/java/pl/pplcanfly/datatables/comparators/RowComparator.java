@@ -21,9 +21,21 @@ public class RowComparator implements Comparator<Object> {
     public static RowComparator descending(Type type, String fieldName) {
         return new RowComparator(type, SortOrder.DESC, fieldName);
     }
+    
+    public static RowComparator ascending(Type type, ValueAccessor valueAccessor) {
+        return new RowComparator(type, SortOrder.ASC, valueAccessor);
+    }
+    
+    public static RowComparator descending(Type type, ValueAccessor valueAccessor) {
+        return new RowComparator(type, SortOrder.DESC, valueAccessor);
+    }
 
     private RowComparator(Type type, SortOrder sortOrder, String fieldName) {
-        this.valueAccessor = new ReflectionValueAccessor(fieldName);
+        this(type, sortOrder, new ReflectionValueAccessor(fieldName));
+    }
+
+    public RowComparator(Type type, SortOrder sortOrder, ValueAccessor valueAccessor) {
+        this.valueAccessor = valueAccessor;
         this.valueComparator = type.getComparator();
         this.sortOrder = sortOrder;
     }

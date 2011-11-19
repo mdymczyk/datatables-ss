@@ -2,11 +2,13 @@ package pl.pplcanfly.datatables.comparators;
 
 import static org.fest.assertions.Assertions.assertThat;
 
+import java.util.List;
+
 import org.junit.Test;
 
 import pl.pplcanfly.datatables.Something;
 import pl.pplcanfly.datatables.Type;
-import pl.pplcanfly.datatables.comparators.RowComparator;
+import pl.pplcanfly.datatables.accessors.ValueAccessor;
 
 public class RowComparatorTest {
 
@@ -87,5 +89,58 @@ public class RowComparatorTest {
         assertThat(comparator.compare(s3, s2)).isLessThan(0);
         assertThat(comparator.compare(s3, s3)).isZero();
     }
+    
+    @Test
+    public void should_compare_objects_using_custom_value_accessor_asc() {
+        // given
+        Something s1 = new Something("abc3", 1);
+        Something s2 = new Something("abc2", 1);
+        Something s3 = new Something("abc1", 1);
+        
+        RowComparator comparator = RowComparator.ascending(Type.STRING, new ReversingValueAccessor());
+        
+        // when then
+        assertThat(comparator.compare(s1, s2)).isGreaterThan(0);
+        assertThat(comparator.compare(s1, s3)).isGreaterThan(0);
+        
+        assertThat(comparator.compare(s2, s1)).isLessThan(0);
+        assertThat(comparator.compare(s2, s3)).isGreaterThan(0);
+        
+        assertThat(comparator.compare(s3, s1)).isLessThan(0);
+        assertThat(comparator.compare(s3, s2)).isLessThan(0);
+    }
+    
+    
+    @Test
+    public void should_compare_objects_using_custom_value_accessor_desc() {
+        // given
+        Something s1 = new Something("abc1", 1);
+        Something s2 = new Something("abc2", 1);
+        Something s3 = new Something("abc3", 1);
+        
+        RowComparator comparator = RowComparator.descending(Type.STRING, new ReversingValueAccessor());
+        
+        // when then
+        assertThat(comparator.compare(s1, s2)).isGreaterThan(0);
+        assertThat(comparator.compare(s1, s3)).isGreaterThan(0);
+        
+        assertThat(comparator.compare(s2, s1)).isLessThan(0);
+        assertThat(comparator.compare(s2, s3)).isGreaterThan(0);
+        
+        assertThat(comparator.compare(s3, s1)).isLessThan(0);
+        assertThat(comparator.compare(s3, s2)).isLessThan(0);
+    }
 
 }
+
+class ReversingValueAccessor implements ValueAccessor {
+    @Override
+    public Object getValueFrom(Object obj) {
+        return reverse(((Something) obj).getFoo());
+    }
+    
+    private String reverse(String string) {
+        return new StringBuilder(string).reverse().toString();
+    }
+};
+        
