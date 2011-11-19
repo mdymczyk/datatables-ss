@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import pl.pplcanfly.datatables.Something;
 import pl.pplcanfly.datatables.Type;
-import pl.pplcanfly.datatables.comparators.RowComparatorImpl;
+import pl.pplcanfly.datatables.comparators.RowComparator;
 
 public class RowComparatorTest {
 
@@ -17,7 +17,7 @@ public class RowComparatorTest {
         Something s2 = new Something("u2", 10);
         Something s3 = new Something("u3", 5);
 
-        RowComparatorImpl comparator = RowComparatorImpl.ascending(Type.INTEGER, "bar");
+        RowComparator comparator = RowComparator.ascending(Type.INTEGER, "bar");
 
         // when then
         assertThat(comparator.compare(s1, s2)).isLessThan(0);
@@ -32,7 +32,7 @@ public class RowComparatorTest {
         Something s2 = new Something("u2", 10);
         Something s3 = new Something("u3", 5);
 
-        RowComparatorImpl comparator = RowComparatorImpl.descending(Type.INTEGER, "bar");
+        RowComparator comparator = RowComparator.descending(Type.INTEGER, "bar");
 
         // when then
         assertThat(comparator.compare(s1, s2)).isGreaterThan(0);
@@ -47,8 +47,8 @@ public class RowComparatorTest {
         Something s2 = new Something("aaa", 10);
         Something s3 = new Something("bbb", 2);
 
-        RowComparatorImpl comparator = RowComparatorImpl.ascending(Type.STRING, "foo");
-        comparator.add(RowComparatorImpl.ascending(Type.INTEGER, "bar"));
+        RowComparator comparator = RowComparator.ascending(Type.STRING, "foo");
+        comparator.add(RowComparator.ascending(Type.INTEGER, "bar"));
 
         // when then
         assertThat(comparator.compare(s1, s1)).isZero();
@@ -71,8 +71,8 @@ public class RowComparatorTest {
         Something s2 = new Something("aaa", 10);
         Something s3 = new Something("bbb", 2);
 
-        RowComparatorImpl comparator = RowComparatorImpl.descending(Type.STRING, "foo");
-        comparator.add(RowComparatorImpl.descending(Type.INTEGER, "bar"));
+        RowComparator comparator = RowComparator.descending(Type.STRING, "foo");
+        comparator.add(RowComparator.descending(Type.INTEGER, "bar"));
 
         // when then
         assertThat(comparator.compare(s1, s1)).isZero();
