@@ -42,27 +42,20 @@ public class RowComparator implements Comparator<Object> {
 
     @Override
     public int compare(Object o1, Object o2) {
-        int compare = valueComparator.compare(valueAccessor.getValueFrom(o1), valueAccessor.getValueFrom(o2));
-        
-        if (compare == 0) {
-            return next != null ? next.compare(o1, o2) : compare;
+        int comparisonResult = valueComparator.compare(valueAccessor.getValueFrom(o1), valueAccessor.getValueFrom(o2));
+
+        if (comparisonResult == 0) {
+            return next != null ? next.compare(o1, o2) : comparisonResult;
         } else {
-            return applyOrder(compare);
+            return sortOrder.applyTo(comparisonResult);
         }
     }
-    
+
     /**
      * Used only internally
      */
     void add(RowComparator rowComparator) {
         next = rowComparator;
-    }
-    
-    private int applyOrder(int compare) {
-        if (sortOrder == SortOrder.DESC) {
-            return compare * -1;
-        }
-        return compare;
     }
 
 }
