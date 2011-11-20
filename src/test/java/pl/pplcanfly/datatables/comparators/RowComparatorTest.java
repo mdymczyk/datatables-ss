@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Test;
 
 import pl.pplcanfly.datatables.Something;
+import pl.pplcanfly.datatables.SortOrder;
 import pl.pplcanfly.datatables.Type;
 import pl.pplcanfly.datatables.accessors.ValueAccessor;
 
@@ -22,7 +23,7 @@ public class RowComparatorTest {
         Something s3 = new Something("u3", 5);
         List<Object> list = toList(s1, s2, s3);
 
-        RowComparator comparator = RowComparator.ascending(Type.INTEGER, "bar");
+        RowComparator comparator = new RowComparator(Type.INTEGER, SortOrder.ASC, "bar");
 
         // when
         Collections.sort(list, comparator);
@@ -39,7 +40,7 @@ public class RowComparatorTest {
         Something s3 = new Something("u3", 5);
         List<Object> list = toList(s1, s2, s3);
 
-        RowComparator comparator = RowComparator.descending(Type.INTEGER, "bar");
+        RowComparator comparator = new RowComparator(Type.INTEGER, SortOrder.DESC, "bar");
 
         // when
         Collections.sort(list, comparator);
@@ -56,8 +57,8 @@ public class RowComparatorTest {
         Something s3 = new Something("bbb", 2);
         List<Object> list = toList(s1, s2, s3);
 
-        RowComparator comparator = RowComparator.ascending(Type.STRING, "foo");
-        comparator.add(RowComparator.ascending(Type.INTEGER, "bar"));
+        RowComparator comparator = new RowComparator(Type.STRING, SortOrder.ASC, "foo");
+        comparator.add(new RowComparator(Type.INTEGER, SortOrder.ASC, "bar"));
 
         // when
         Collections.sort(list, comparator);
@@ -74,8 +75,8 @@ public class RowComparatorTest {
         Something s3 = new Something("bbb", 2);
         List<Object> list = toList(s1, s2, s3);
 
-        RowComparator comparator = RowComparator.descending(Type.STRING, "foo");
-        comparator.add(RowComparator.descending(Type.INTEGER, "bar"));
+        RowComparator comparator = new RowComparator(Type.STRING, SortOrder.DESC, "foo");
+        comparator.add(new RowComparator(Type.INTEGER, SortOrder.DESC, "bar"));
 
         // when
         Collections.sort(list, comparator);
@@ -92,7 +93,7 @@ public class RowComparatorTest {
         Something s3 = new Something("abc1", 1);
         List<Object> list = toList(s1, s2, s3);
 
-        RowComparator comparator = RowComparator.ascending(Type.STRING, new ReversingValueAccessor());
+        RowComparator comparator = new RowComparator(Type.STRING, SortOrder.ASC, new ReversingValueAccessor());
 
         // when
         Collections.sort(list, comparator);
@@ -109,7 +110,7 @@ public class RowComparatorTest {
         Something s3 = new Something("abc3", 1);
         List<Object> list = toList(s1, s2, s3);
 
-        RowComparator comparator = RowComparator.descending(Type.STRING, new ReversingValueAccessor());
+        RowComparator comparator = new RowComparator(Type.STRING, SortOrder.DESC, new ReversingValueAccessor());
 
         // when
         Collections.sort(list, comparator);

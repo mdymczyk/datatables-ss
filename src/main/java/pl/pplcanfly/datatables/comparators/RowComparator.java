@@ -13,24 +13,8 @@ public class RowComparator implements Comparator<Object> {
     private Comparator<Object> valueComparator;
     private SortOrder sortOrder;
     private RowComparator next;
-    
-    public static RowComparator ascending(Type type, String fieldName) {
-        return new RowComparator(type, SortOrder.ASC, fieldName);
-    }
-    
-    public static RowComparator descending(Type type, String fieldName) {
-        return new RowComparator(type, SortOrder.DESC, fieldName);
-    }
-    
-    public static RowComparator ascending(Type type, ValueAccessor valueAccessor) {
-        return new RowComparator(type, SortOrder.ASC, valueAccessor);
-    }
-    
-    public static RowComparator descending(Type type, ValueAccessor valueAccessor) {
-        return new RowComparator(type, SortOrder.DESC, valueAccessor);
-    }
 
-    private RowComparator(Type type, SortOrder sortOrder, String fieldName) {
+    public RowComparator(Type type, SortOrder sortOrder, String fieldName) {
         this(type, sortOrder, new ReflectionValueAccessor(fieldName));
     }
 
