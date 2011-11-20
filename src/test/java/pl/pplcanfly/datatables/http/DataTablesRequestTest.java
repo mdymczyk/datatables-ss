@@ -35,7 +35,8 @@ public class DataTablesRequestTest {
     }
 
     @Test
-    public void should_not_change_order_of_input_rows() throws IOException {
+    public void should_not_change_order_of_input_rows() {
+        // given
         setSortCols(params, "foo");
         setSortDirs(params, "asc");
         
@@ -49,7 +50,8 @@ public class DataTablesRequestTest {
     }
     
     @Test
-    public void should_sort_by_one_column_asc() throws IOException {
+    public void should_sort_by_one_column_asc() {
+        // given
         setSortCols(params, "foo");
         setSortDirs(params, "asc");
         
@@ -63,7 +65,8 @@ public class DataTablesRequestTest {
     }
     
     @Test
-    public void should_sort_by_one_column_desc() throws IOException {
+    public void should_sort_by_one_column_desc() {
+        // given
         setSortCols(params, "foo");
         setSortDirs(params, "desc");
         
@@ -76,6 +79,37 @@ public class DataTablesRequestTest {
         assertThat(response.getProcessedRows()).isEqualTo(load("1_foo_desc"));
     }
     
+    @Test
+    public void should_preserve_order_of_elements_having_same_value_in_column() {
+        // given
+        setSortCols(params, "foo");
+        setSortDirs(params, "asc");
+        
+        List<Something> rows = load("2");
+        
+        // when
+        DataTablesResponse response = request.process(dataTable, rows);
+        
+        // then
+        assertThat(response.getProcessedRows()).isEqualTo(load("2_foo_asc"));
+    }
+    
+    @Test
+    public void should_sort_by_two_columns_both_asc() {
+        // given
+        setSortCols(params, "foo", "bar");
+        setSortDirs(params, "asc", "asc");
+        
+        List<Something> rows = load("2");
+        
+        // when
+        DataTablesResponse response = request.process(dataTable, rows);
+        
+        // then
+        assertThat(response.getProcessedRows()).isEqualTo(load("2_foo_asc_bar_asc"));
+        
+    }
+    
     private void setSortCols(RequestParams params, String... cols) {
         stub(params.getSortCols()).toReturn(Arrays.asList(cols));
         stub(params.getSortingColsCount()).toReturn(cols.length);
@@ -85,16 +119,25 @@ public class DataTablesRequestTest {
         stub(params.getSortDirs()).toReturn(Arrays.asList(dirs));
     }
     
-    private List<Something> load(String file) throws IOException {
+    private List<Something> load(String file) {
         InputStream is = this.getClass().getResourceAsStream("/fixtures/" + file);
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         List<Something> list = new ArrayList<Something>();
         String line = null;
-        while ((line = reader.readLine()) != null) {
+        while ((line = readLine(reader)) != null) {
             String[] splitted = line.split(" ");
             list.add(new Something(splitted[0], Integer.parseInt(splitted[1])));
         }
 
         return list;
+    }
+
+    private String readLine(BufferedReader reader) {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }
