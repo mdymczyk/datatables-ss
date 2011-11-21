@@ -16,7 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pl.pplcanfly.datatables.Something;
-import pl.pplcanfly.datatables.Type;
+import pl.pplcanfly.datatables.Types;
 
 public class DataTablesRequestTest {
 
@@ -27,8 +27,8 @@ public class DataTablesRequestTest {
     @Before
     public void setUp() {
         dataTable = new ServerSideDataTable();
-        dataTable.addColumn(Type.STRING, "foo");
-        dataTable.addColumn(Type.INTEGER, "bar");
+        dataTable.addColumn(Types.text(), "foo");
+        dataTable.addColumn(Types.numeric(), "bar");
 
         params = mock(RequestParams.class);
         request = new DataTablesRequest(params);

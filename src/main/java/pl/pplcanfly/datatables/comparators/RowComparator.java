@@ -20,7 +20,7 @@ public class RowComparator implements Comparator<Object> {
 
     public RowComparator(Type type, SortOrder sortOrder, ValueAccessor valueAccessor) {
         this.valueAccessor = valueAccessor;
-        this.valueComparator = type.getComparator();
+        this.valueComparator = type;
         this.sortOrder = sortOrder;
     }
     
