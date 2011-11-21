@@ -24,10 +24,10 @@ public class RowComparator implements Comparator<Object> {
     }
     
     public void append(RowComparator rowComparator) {
-        if (next == null) {
-            next = rowComparator;
-        } else {
+        if (hasNextAppended()) {
             next.append(rowComparator);
+        } else {
+            next = rowComparator;
         }
     }
 
@@ -37,13 +37,18 @@ public class RowComparator implements Comparator<Object> {
 
     @Override
     public int compare(Object o1, Object o2) {
-        int comparisonResult = valueComparator.compare(valueAccessor.getValueFrom(o1), valueAccessor.getValueFrom(o2));
+        int comparisonResult = valueComparator.compare(valueAccessor.getValueFrom(o1),
+                valueAccessor.getValueFrom(o2));
 
         if (comparisonResult == 0) {
-            return next != null ? next.compare(o1, o2) : comparisonResult;
-        } else {
-            return sortOrder.applyTo(comparisonResult);
+            return hasNextAppended() ? next.compare(o1, o2) : comparisonResult;
         }
+        
+        return sortOrder.applyTo(comparisonResult);
+    }
+
+    private boolean hasNextAppended() {
+        return next != null;
     }
 
 }
