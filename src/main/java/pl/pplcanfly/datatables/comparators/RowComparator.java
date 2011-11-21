@@ -23,6 +23,18 @@ public class RowComparator implements Comparator<Object> {
         this.valueComparator = type.getComparator();
         this.sortOrder = sortOrder;
     }
+    
+    public void addNext(RowComparator rowComparator) {
+        if (next == null) {
+            next = rowComparator;
+        } else {
+            next.addNext(rowComparator);
+        }
+    }
+
+    public RowComparator getNext() {
+        return next;
+    }
 
     @Override
     public int compare(Object o1, Object o2) {
@@ -33,21 +45,6 @@ public class RowComparator implements Comparator<Object> {
         } else {
             return sortOrder.applyTo(comparisonResult);
         }
-    }
-
-    /**
-     * Used only internally
-     */
-    void addNext(RowComparator rowComparator) {
-        if (next == null) {
-            next = rowComparator;
-        } else {
-            next.addNext(rowComparator);
-        }
-    }
-
-    public RowComparator getNext() {
-        return next;
     }
 
 }
