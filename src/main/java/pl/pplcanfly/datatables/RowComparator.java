@@ -1,11 +1,10 @@
-package pl.pplcanfly.datatables.comparators;
+package pl.pplcanfly.datatables;
 
 import java.util.Comparator;
 
-import pl.pplcanfly.datatables.SortOrder;
-import pl.pplcanfly.datatables.Type;
 import pl.pplcanfly.datatables.accessors.ReflectionValueAccessor;
 import pl.pplcanfly.datatables.accessors.ValueAccessor;
+import pl.pplcanfly.datatables.types.Type;
 
 public class RowComparator implements Comparator<Object> {
 

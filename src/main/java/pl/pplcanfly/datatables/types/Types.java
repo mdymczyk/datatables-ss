@@ -1,6 +1,5 @@
-package pl.pplcanfly.datatables;
+package pl.pplcanfly.datatables.types;
 
-import pl.pplcanfly.datatables.comparators.ComparableType;
 
 public abstract class Types {
     public static Type numeric() {

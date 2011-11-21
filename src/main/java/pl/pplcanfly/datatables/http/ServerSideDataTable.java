@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.pplcanfly.datatables.Column;
-import pl.pplcanfly.datatables.Type;
+import pl.pplcanfly.datatables.types.Type;
 
 public class ServerSideDataTable {
 

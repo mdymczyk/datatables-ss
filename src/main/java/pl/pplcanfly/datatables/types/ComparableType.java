@@ -1,6 +1,5 @@
-package pl.pplcanfly.datatables.comparators;
+package pl.pplcanfly.datatables.types;
 
-import pl.pplcanfly.datatables.Type;
 
 
 

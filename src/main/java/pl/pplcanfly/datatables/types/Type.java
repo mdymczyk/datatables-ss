@@ -1,4 +1,4 @@
-package pl.pplcanfly.datatables;
+package pl.pplcanfly.datatables.types;
 
 import java.util.Comparator;
 

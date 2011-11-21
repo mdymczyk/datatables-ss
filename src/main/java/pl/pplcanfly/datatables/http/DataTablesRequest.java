@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import pl.pplcanfly.datatables.Column;
+import pl.pplcanfly.datatables.RowComparator;
 import pl.pplcanfly.datatables.SortOrder;
-import pl.pplcanfly.datatables.comparators.RowComparator;
 
 public class DataTablesRequest {
 

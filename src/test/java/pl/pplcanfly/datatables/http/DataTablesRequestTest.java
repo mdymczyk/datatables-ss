@@ -16,7 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pl.pplcanfly.datatables.Something;
-import pl.pplcanfly.datatables.Types;
+import pl.pplcanfly.datatables.types.Types;
 
 public class DataTablesRequestTest {
 

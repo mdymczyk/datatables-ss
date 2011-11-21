@@ -1,6 +1,7 @@
 package pl.pplcanfly.datatables;
 
 import pl.pplcanfly.datatables.accessors.ValueAccessor;
+import pl.pplcanfly.datatables.types.Type;
 
 public class Column {
     private Type type;
