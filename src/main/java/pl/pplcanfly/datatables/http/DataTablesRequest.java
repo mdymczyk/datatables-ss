@@ -42,7 +42,7 @@ public class DataTablesRequest {
             if (comparator == null) {
                 comparator = newComparator;
             } else {
-                comparator.addNext(newComparator);
+                comparator.append(newComparator);
             }
         }
         return comparator;

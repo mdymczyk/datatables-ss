@@ -58,7 +58,7 @@ public class RowComparatorTest {
         List<Object> list = toList(s1, s2, s3);
 
         RowComparator comparator = new RowComparator(Type.STRING, SortOrder.ASC, "foo");
-        comparator.addNext(new RowComparator(Type.INTEGER, SortOrder.ASC, "bar"));
+        comparator.append(new RowComparator(Type.INTEGER, SortOrder.ASC, "bar"));
 
         // when
         Collections.sort(list, comparator);
@@ -76,7 +76,7 @@ public class RowComparatorTest {
         List<Object> list = toList(s1, s2, s3);
 
         RowComparator comparator = new RowComparator(Type.STRING, SortOrder.DESC, "foo");
-        comparator.addNext(new RowComparator(Type.INTEGER, SortOrder.DESC, "bar"));
+        comparator.append(new RowComparator(Type.INTEGER, SortOrder.DESC, "bar"));
 
         // when
         Collections.sort(list, comparator);
@@ -120,7 +120,7 @@ public class RowComparatorTest {
     }
     
     @Test
-    public void should_add_next_comparator_to_existing_one() {
+    public void should_append_comparators_to_existing_one() {
         // given
         RowComparator comparator1 = new RowComparator(Type.STRING, SortOrder.DESC, "foo");
         RowComparator comparator2 = new RowComparator(Type.STRING, SortOrder.DESC, "foo");
@@ -128,9 +128,9 @@ public class RowComparatorTest {
         RowComparator comparator4 = new RowComparator(Type.STRING, SortOrder.DESC, "foo");
         
         // when
-        comparator1.addNext(comparator2);
-        comparator1.addNext(comparator3);
-        comparator1.addNext(comparator4);
+        comparator1.append(comparator2);
+        comparator1.append(comparator3);
+        comparator1.append(comparator4);
         
         // then
         assertThat(comparator1.getNext()).isSameAs(comparator2);

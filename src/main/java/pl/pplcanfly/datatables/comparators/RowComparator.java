@@ -24,11 +24,11 @@ public class RowComparator implements Comparator<Object> {
         this.sortOrder = sortOrder;
     }
     
-    public void addNext(RowComparator rowComparator) {
+    public void append(RowComparator rowComparator) {
         if (next == null) {
             next = rowComparator;
         } else {
-            next.addNext(rowComparator);
+            next.append(rowComparator);
         }
     }
 
