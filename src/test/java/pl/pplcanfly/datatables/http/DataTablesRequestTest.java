@@ -107,7 +107,21 @@ public class DataTablesRequestTest {
         
         // then
         assertThat(response.getProcessedRows()).isEqualTo(load("2_foo_asc_bar_asc"));
+    }
+    
+    @Test
+    public void should_sort_by_two_columns_asc_desc() {
+        // given
+        setSortCols(params, "foo", "bar");
+        setSortDirs(params, "asc", "desc");
         
+        List<Something> rows = load("2");
+        
+        // when
+        DataTablesResponse response = request.process(dataTable, rows);
+        
+        // then
+        assertThat(response.getProcessedRows()).isEqualTo(load("2_foo_asc_bar_desc"));
     }
     
     private void setSortCols(RequestParams params, String... cols) {

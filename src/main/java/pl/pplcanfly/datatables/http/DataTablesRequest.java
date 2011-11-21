@@ -22,25 +22,30 @@ public class DataTablesRequest {
     }
 
     public DataTablesResponse process(ServerSideDataTable dataTable, List<?> rows) {
-        RowComparator comparator = null;
-        for (int i = 0; i < params.getSortingColsCount(); i++) {
-            String sortColumnName = params.getSortCols().get(i);
-            Column col = findColumn(sortColumnName, dataTable);
-            comparator = new RowComparator(col.getType(), SortOrder.valueOf(params.getSortDirs().get(i)
-                    .toUpperCase()), sortColumnName);
-        }
+        RowComparator comparator = makeComparator(dataTable);
         List<Object> processedRows = new ArrayList<Object>(rows);
+        
         Collections.sort(processedRows, comparator);
+        
         return new DataTablesResponse(processedRows);
     }
 
-    private Column findColumn(String col, ServerSideDataTable dataTable) {
-        for (Column c : dataTable.getColumns()) {
-            if (c.getName().equals(col)) {
-                return c;
+    private RowComparator makeComparator(ServerSideDataTable dataTable) {
+        RowComparator comparator = null;
+        for (int i = 0; i < params.getSortingColsCount(); i++) {
+            String sortColumnName = params.getSortCols().get(i);
+            Column column = dataTable.findColumn(sortColumnName);
+
+            RowComparator newComparator = new RowComparator(column.getType(), SortOrder.valueOf(params
+                    .getSortDirs().get(i).toUpperCase()), sortColumnName);
+
+            if (comparator == null) {
+                comparator = newComparator;
+            } else {
+                comparator.addNext(newComparator);
             }
         }
-        return null;
+        return comparator;
     }
 
 }

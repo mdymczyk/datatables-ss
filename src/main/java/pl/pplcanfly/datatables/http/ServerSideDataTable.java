@@ -18,4 +18,13 @@ public class ServerSideDataTable {
         return columns;
     }
 
+    Column findColumn(String columnName) {
+        for (Column c : getColumns()) {
+            if (c.getName().equals(columnName)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
 }
