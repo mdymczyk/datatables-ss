@@ -38,8 +38,16 @@ public class RowComparator implements Comparator<Object> {
     /**
      * Used only internally
      */
-    void add(RowComparator rowComparator) {
-        next = rowComparator;
+    void addNext(RowComparator rowComparator) {
+        if (next == null) {
+            next = rowComparator;
+        } else {
+            next.addNext(rowComparator);
+        }
+    }
+
+    public RowComparator getNext() {
+        return next;
     }
 
 }
