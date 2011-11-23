@@ -13,7 +13,7 @@ public class DataTablesRequest {
 
     private RequestParams params;
 
-    public DataTablesRequest(Map<String, String> params) {
+    public DataTablesRequest(Map<String, String[]> params) {
         this.params = new RequestParams(params);
     }
     
