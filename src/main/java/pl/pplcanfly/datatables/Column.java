@@ -13,9 +13,13 @@ public class Column {
         this.name = name;
     }
 
-    public Column(Type type, ValueAccessor valueAccessor) {
-        this.type = type;
+    public Column(Type type, String name, ValueAccessor valueAccessor) {
+        this(type, name);
         this.valueAccessor = valueAccessor;
+    }
+    
+    public boolean hasCustomValueAccesor() {
+        return valueAccessor != null;
     }
 
     public Type getType() {

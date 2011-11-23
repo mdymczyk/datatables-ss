@@ -36,8 +36,14 @@ public class DataTablesRequest {
             String sortColumnName = params.getSortCols().get(i);
             Column column = dataTable.findColumn(sortColumnName);
 
-            RowComparator newComparator = new RowComparator(column.getType(), SortOrder.valueOf(params
-                    .getSortDirs().get(i).toUpperCase()), sortColumnName);
+            RowComparator newComparator;
+            if (column.hasCustomValueAccesor()) {
+                newComparator = new RowComparator(column.getType(), SortOrder.valueOf(params.getSortDirs()
+                        .get(i).toUpperCase()), column.getValueAccessor());
+            } else {
+                newComparator = new RowComparator(column.getType(), SortOrder.valueOf(params.getSortDirs()
+                        .get(i).toUpperCase()), sortColumnName);
+            }
 
             if (comparator == null) {
                 comparator = newComparator;

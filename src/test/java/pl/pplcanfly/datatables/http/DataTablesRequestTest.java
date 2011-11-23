@@ -15,6 +15,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import pl.pplcanfly.datatables.ReversingValueAccessor;
 import pl.pplcanfly.datatables.Something;
 import pl.pplcanfly.datatables.types.Types;
 
@@ -122,6 +123,25 @@ public class DataTablesRequestTest {
         
         // then
         assertThat(response.getProcessedRows()).isEqualTo(load("2_foo_asc_bar_desc"));
+    }
+    
+    @Test
+    public void should_accept_custom_value_accessor() {
+        // given
+        ServerSideDataTable dataTable = new ServerSideDataTable();
+        dataTable.addColumn(Types.text(), "foo", new ReversingValueAccessor());
+        dataTable.addColumn(Types.numeric(), "bar");
+        
+        setSortCols(params, "foo");
+        setSortDirs(params, "asc");
+        
+        List<Something> rows = load("3");
+        
+        // when
+        DataTablesResponse response = request.process(dataTable, rows);
+        
+        // then
+        assertThat(response.getProcessedRows()).isEqualTo(load("3_foo_asc_revacc"));
     }
     
     private void setSortCols(RequestParams params, String... cols) {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.pplcanfly.datatables.Column;
+import pl.pplcanfly.datatables.accessors.ValueAccessor;
 import pl.pplcanfly.datatables.types.Type;
 
 public class ServerSideDataTable {
@@ -14,6 +15,10 @@ public class ServerSideDataTable {
         columns.add(new Column(type, name));
     }
     
+    public void addColumn(Type type, String name, ValueAccessor valueAccessor) {
+        columns.add(new Column(type, name, valueAccessor));
+    }
+
     public List<Column> getColumns() {
         return columns;
     }
