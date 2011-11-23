@@ -8,9 +8,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import pl.pplcanfly.datatables.RowComparator;
-import pl.pplcanfly.datatables.SortOrder;
-import pl.pplcanfly.datatables.accessors.ValueAccessor;
 import pl.pplcanfly.datatables.types.Types;
 
 public class RowComparatorTest {
@@ -149,13 +146,3 @@ public class RowComparatorTest {
 
 }
 
-class ReversingValueAccessor implements ValueAccessor {
-    @Override
-    public Object getValueFrom(Object obj) {
-        return reverse(((Something) obj).getFoo());
-    }
-
-    private String reverse(String string) {
-        return new StringBuilder(string).reverse().toString();
-    }
-};
