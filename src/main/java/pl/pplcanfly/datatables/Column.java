@@ -20,10 +20,6 @@ public class Column {
         this.valueAccessor = valueAccessor;
     }
     
-    public boolean hasCustomValueAccesor() {
-        return valueAccessor != null;
-    }
-
     public Type getType() {
         return type;
     }
