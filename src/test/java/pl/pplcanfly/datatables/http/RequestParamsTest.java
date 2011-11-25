@@ -22,9 +22,9 @@ public class RequestParamsTest {
         params.put("iSortCol_0", new String[]{"2"});
         params.put("iSortCol_1", new String[]{"3"});
         params.put("iSortCol_2", new String[]{"0"});
-        params.put("iSortDir_0", new String[]{"asc"});
-        params.put("iSortDir_1", new String[]{"desc"});
-        params.put("iSortDir_2", new String[]{"asc"});
+        params.put("sSortDir_0", new String[]{"asc"});
+        params.put("sSortDir_1", new String[]{"desc"});
+        params.put("sSortDir_2", new String[]{"asc"});
         
         // when
         RequestParams request = new RequestParams(params);

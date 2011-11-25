@@ -36,7 +36,7 @@ class RequestParams {
     public List<String> getSortDirs() {
         List<String> sortDirs = new ArrayList<String>();
         for (int i = 0; i < getSortingColsCount(); i++) {
-            sortDirs.add(getParam("iSortDir_" + i));
+            sortDirs.add(getParam("sSortDir_" + i));
         }
         return sortDirs;
     }
