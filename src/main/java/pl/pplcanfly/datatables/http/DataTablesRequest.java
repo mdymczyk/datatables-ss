@@ -27,7 +27,7 @@ public class DataTablesRequest {
         
         Collections.sort(processedRows, comparator);
         
-        return new DataTablesResponse(processedRows);
+        return new DataTablesResponse(processedRows, dataTable);
     }
 
     private RowComparator makeComparator(ServerSideDataTable dataTable) {
