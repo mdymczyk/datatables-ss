@@ -8,7 +8,7 @@ public class Something {
         this.foo = foo;
         this.bar = bar;
     }
-    
+
     public String getFoo() {
         return foo;
     }
@@ -24,7 +24,7 @@ public class Something {
     public void setBar(int bar) {
         this.bar = bar;
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;

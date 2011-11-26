@@ -14,7 +14,7 @@ public class ServerSideDataTable {
     public void addColumn(Type type, String name) {
         columns.add(new Column(type, name));
     }
-    
+
     public void addColumn(Type type, String name, ValueAccessor valueAccessor) {
         columns.add(new Column(type, name, valueAccessor));
     }

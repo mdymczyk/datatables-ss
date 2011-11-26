@@ -40,119 +40,119 @@ public class DataTablesRequestTest {
         // given
         setSortCols(params, "foo");
         setSortDirs(params, "asc");
-        
+
         List<Something> rows = load("1");
-        
+
         // when
         request.process(dataTable, rows);
-        
+
         // then
         assertThat(rows).isEqualTo(load("1"));
     }
-    
+
     @Test
     public void should_sort_by_one_column_asc() {
         // given
         setSortCols(params, "foo");
         setSortDirs(params, "asc");
-        
+
         List<Something> rows = load("1");
-        
+
         // when
         DataTablesResponse response = request.process(dataTable, rows);
-        
+
         // then
         assertThat(response.getProcessedRows()).isEqualTo(load("1_foo_asc"));
     }
-    
+
     @Test
     public void should_sort_by_one_column_desc() {
         // given
         setSortCols(params, "foo");
         setSortDirs(params, "desc");
-        
+
         List<Something> rows = load("1");
-        
+
         // when
         DataTablesResponse response = request.process(dataTable, rows);
-        
+
         // then
         assertThat(response.getProcessedRows()).isEqualTo(load("1_foo_desc"));
     }
-    
+
     @Test
     public void should_preserve_order_of_elements_having_same_value_in_column() {
         // given
         setSortCols(params, "foo");
         setSortDirs(params, "asc");
-        
+
         List<Something> rows = load("2");
-        
+
         // when
         DataTablesResponse response = request.process(dataTable, rows);
-        
+
         // then
         assertThat(response.getProcessedRows()).isEqualTo(load("2_foo_asc"));
     }
-    
+
     @Test
     public void should_sort_by_two_columns_both_asc() {
         // given
         setSortCols(params, "foo", "bar");
         setSortDirs(params, "asc", "asc");
-        
+
         List<Something> rows = load("2");
-        
+
         // when
         DataTablesResponse response = request.process(dataTable, rows);
-        
+
         // then
         assertThat(response.getProcessedRows()).isEqualTo(load("2_foo_asc_bar_asc"));
     }
-    
+
     @Test
     public void should_sort_by_two_columns_asc_desc() {
         // given
         setSortCols(params, "foo", "bar");
         setSortDirs(params, "asc", "desc");
-        
+
         List<Something> rows = load("2");
-        
+
         // when
         DataTablesResponse response = request.process(dataTable, rows);
-        
+
         // then
         assertThat(response.getProcessedRows()).isEqualTo(load("2_foo_asc_bar_desc"));
     }
-    
+
     @Test
     public void should_accept_custom_value_accessor() {
         // given
         ServerSideDataTable dataTable = new ServerSideDataTable();
         dataTable.addColumn(Types.text(), "foo", new ReversingValueAccessor());
         dataTable.addColumn(Types.numeric(), "bar");
-        
+
         setSortCols(params, "foo");
         setSortDirs(params, "asc");
-        
+
         List<Something> rows = load("3");
-        
+
         // when
         DataTablesResponse response = request.process(dataTable, rows);
-        
+
         // then
         assertThat(response.getProcessedRows()).isEqualTo(load("3_foo_asc_revacc"));
     }
-    
+
     private void setSortCols(RequestParams params, String... cols) {
         stub(params.getSortCols()).toReturn(Arrays.asList(cols));
         stub(params.getSortingColsCount()).toReturn(cols.length);
     }
-    
+
     private void setSortDirs(RequestParams params, String... dirs) {
         stub(params.getSortDirs()).toReturn(Arrays.asList(dirs));
     }
-    
+
     private List<Something> load(String file) {
         InputStream is = this.getClass().getResourceAsStream("/fixtures/" + file);
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));

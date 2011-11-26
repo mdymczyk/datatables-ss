@@ -115,7 +115,7 @@ public class RowComparatorTest {
         // then
         assertThat(list).containsExactly(s3, s2, s1);
     }
-    
+
     @Test
     public void should_append_comparators_to_existing_one() {
         // given
@@ -123,12 +123,12 @@ public class RowComparatorTest {
         RowComparator comparator2 = new RowComparator(Types.text(), SortOrder.DESC, "foo");
         RowComparator comparator3 = new RowComparator(Types.text(), SortOrder.DESC, "foo");
         RowComparator comparator4 = new RowComparator(Types.text(), SortOrder.DESC, "foo");
-        
+
         // when
         comparator1.append(comparator2);
         comparator1.append(comparator3);
         comparator1.append(comparator4);
-        
+
         // then
         assertThat(comparator1.getNext()).isSameAs(comparator2);
         assertThat(comparator2.getNext()).isSameAs(comparator3);

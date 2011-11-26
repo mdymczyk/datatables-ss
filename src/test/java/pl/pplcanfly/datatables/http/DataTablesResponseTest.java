@@ -18,13 +18,13 @@ public class DataTablesResponseTest {
         ServerSideDataTable dataTable = new ServerSideDataTable();
         dataTable.addColumn(Types.text(), "foo");
         dataTable.addColumn(Types.numeric(), "bar");
-        
+
         List<Something> rows = Arrays.asList(new Something("abc", 123), new Something("def", 987));
         DataTablesResponse response = new DataTablesResponse(new ResponseParams(3, 20, 2), dataTable, rows);
-        
+
         // when
         String json = response.toJson();
-        
+
         // then
         assertThat(json).isEqualTo("{\"sEcho\":3," +
         		"\"iTotalRecords\":20," +

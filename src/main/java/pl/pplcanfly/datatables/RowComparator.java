@@ -22,7 +22,7 @@ public class RowComparator implements Comparator<Object> {
         this.valueComparator = type;
         this.sortOrder = sortOrder;
     }
-    
+
     public void append(RowComparator rowComparator) {
         if (hasNextAppended()) {
             next.append(rowComparator);
@@ -43,7 +43,7 @@ public class RowComparator implements Comparator<Object> {
         if (comparisonResult == 0) {
             return hasNextAppended() ? next.compare(o1, o2) : comparisonResult;
         }
-        
+
         return sortOrder.applyTo(comparisonResult);
     }
 

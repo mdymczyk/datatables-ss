@@ -16,7 +16,7 @@ public class DataTablesRequest {
     public DataTablesRequest(Map<String, String[]> params) {
         this.params = new RequestParams(params);
     }
-    
+
     DataTablesRequest(RequestParams params) {
         this.params = params;
     }
@@ -24,9 +24,9 @@ public class DataTablesRequest {
     public DataTablesResponse process(ServerSideDataTable dataTable, List<?> rows) {
         RowComparator comparator = makeComparator(dataTable);
         List<Object> processedRows = new ArrayList<Object>(rows);
-        
+
         Collections.sort(processedRows, comparator);
-        
+
         return new DataTablesResponse(processedRows, dataTable);
     }
 

@@ -33,7 +33,7 @@ public class ReflectionValueAccessorTest {
 
         // when
         accessor.getValueFrom(s);
-        
+
         // then throw exception
     }
 

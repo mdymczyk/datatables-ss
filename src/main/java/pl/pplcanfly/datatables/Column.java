@@ -19,7 +19,7 @@ public class Column {
         this(type, name);
         this.valueAccessor = valueAccessor;
     }
-    
+
     public Type getType() {
         return type;
     }
