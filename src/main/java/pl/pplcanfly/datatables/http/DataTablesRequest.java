@@ -7,6 +7,7 @@ import java.util.Map;
 
 import pl.pplcanfly.datatables.Column;
 import pl.pplcanfly.datatables.RowComparator;
+import pl.pplcanfly.datatables.ServerSideDataTable;
 import pl.pplcanfly.datatables.SortOrder;
 
 public class DataTablesRequest {

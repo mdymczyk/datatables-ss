@@ -1,9 +1,8 @@
-package pl.pplcanfly.datatables.http;
+package pl.pplcanfly.datatables;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.pplcanfly.datatables.Column;
 import pl.pplcanfly.datatables.accessors.ValueAccessor;
 import pl.pplcanfly.datatables.types.Type;
 
@@ -23,7 +22,7 @@ public class ServerSideDataTable {
         return columns;
     }
 
-    Column findColumn(String columnName) {
+    public Column findColumn(String columnName) {
         for (Column c : getColumns()) {
             if (c.getName().equals(columnName)) {
                 return c;

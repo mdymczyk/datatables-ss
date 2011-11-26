@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pl.pplcanfly.datatables.ReversingValueAccessor;
+import pl.pplcanfly.datatables.ServerSideDataTable;
 import pl.pplcanfly.datatables.Something;
 import pl.pplcanfly.datatables.types.Types;
 

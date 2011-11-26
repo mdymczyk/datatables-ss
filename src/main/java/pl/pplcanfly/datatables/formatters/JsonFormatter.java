@@ -7,8 +7,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import pl.pplcanfly.datatables.Column;
+import pl.pplcanfly.datatables.ServerSideDataTable;
 import pl.pplcanfly.datatables.http.ResponseParams;
-import pl.pplcanfly.datatables.http.ServerSideDataTable;
 
 public class JsonFormatter implements Formatter {
 

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import pl.pplcanfly.datatables.ServerSideDataTable;
 import pl.pplcanfly.datatables.Something;
 import pl.pplcanfly.datatables.types.Types;
 
