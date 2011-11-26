@@ -51,6 +51,25 @@ public class DataTablesRequestTest {
     }
 
     @Test
+    public void should_set_response_params_after_sorting() {
+        // given
+        stub(params.getEcho()).toReturn(3);
+
+        setSortCols(params, "foo");
+        setSortDirs(params, "asc");
+
+        List<Something> rows = load("1");
+
+        // when
+        DataTablesResponse response = request.process(dataTable, rows);
+
+        // then
+        assertThat(response.getParams().getEcho()).isEqualTo(3);
+        assertThat(response.getParams().getTotalRecords()).isEqualTo(4);
+        assertThat(response.getParams().getTotalDisplayRecords()).isEqualTo(4);
+    }
+
+    @Test
     public void should_sort_by_one_column_asc() {
         // given
         setSortCols(params, "foo");

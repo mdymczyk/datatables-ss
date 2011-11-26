@@ -10,11 +10,6 @@ public class DataTablesResponse {
     private ServerSideDataTable dataTable;
     private ResponseParams params;
 
-    public DataTablesResponse(List<?> processedRows, ServerSideDataTable dataTable) {
-        this.processedRows = processedRows;
-        this.dataTable = dataTable;
-    }
-
     public DataTablesResponse(ResponseParams params, ServerSideDataTable dataTable, List<?> processedRows) {
         this.params = params;
         this.processedRows = processedRows;
@@ -27,6 +22,10 @@ public class DataTablesResponse {
 
     public String toJson() {
         return new JsonFormatter().format(params, dataTable, processedRows);
+    }
+
+    public ResponseParams getParams() {
+        return params;
     }
 
 }
