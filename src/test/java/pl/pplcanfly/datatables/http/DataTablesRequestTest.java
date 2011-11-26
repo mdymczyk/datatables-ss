@@ -32,6 +32,9 @@ public class DataTablesRequestTest {
         dataTable.addColumn(Types.numeric(), "bar");
 
         params = mock(RequestParams.class);
+        stub(params.getDisplayStart()).toReturn(0);
+        stub(params.getDisplayLength()).toReturn(20);
+
         request = new DataTablesRequest(params);
     }
 
@@ -48,6 +51,24 @@ public class DataTablesRequestTest {
 
         // then
         assertThat(rows).isEqualTo(load("1"));
+    }
+
+    @Test
+    public void should_offset_and_limit_processed_rows() {
+        // given
+        stub(params.getDisplayStart()).toReturn(1);
+        stub(params.getDisplayLength()).toReturn(2);
+
+        setSortCols(params, "foo");
+        setSortDirs(params, "asc");
+
+        List<Something> rows = load("1");
+
+        // when
+        DataTablesResponse response = request.process(dataTable, rows);
+
+        // then
+        assertThat(response.getProcessedRows()).hasSize(2).onProperty("foo").containsExactly("b", "c");
     }
 
     @Test

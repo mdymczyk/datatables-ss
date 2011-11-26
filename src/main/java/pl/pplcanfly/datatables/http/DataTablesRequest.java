@@ -29,7 +29,12 @@ public class DataTablesRequest {
 
         return new DataTablesResponse(
                 new ResponseParams(params.getEcho(), rows.size(), processedRows.size()), dataTable,
-                processedRows);
+                offsetAndLimit(processedRows));
+    }
+
+    private List<Object> offsetAndLimit(List<Object> processedRows) {
+        return processedRows.subList(params.getDisplayStart(),
+                Math.min(processedRows.size(), params.getDisplayStart() + params.getDisplayLength()));
     }
 
     private RowComparator makeComparator(ServerSideDataTable dataTable) {
