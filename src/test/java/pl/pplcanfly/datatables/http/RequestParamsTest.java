@@ -13,10 +13,12 @@ public class RequestParamsTest {
     public void should_parse_params() {
         // given
         Map<String, String[]> params = new HashMap<String, String[]>();
-        
+
+        params.put("sEcho", new String[]{"3"});
+
         params.put("iDisplayStart", new String[]{"20"});
         params.put("iDisplayLength", new String[]{"10"});
-        
+
         params.put("sColumns", new String[]{"col1,col2,col3,col4,col5"});
         params.put("iSortingCols", new String[]{"3"});
         params.put("iSortCol_0", new String[]{"2"});
@@ -25,14 +27,16 @@ public class RequestParamsTest {
         params.put("sSortDir_0", new String[]{"asc"});
         params.put("sSortDir_1", new String[]{"desc"});
         params.put("sSortDir_2", new String[]{"asc"});
-        
+
         // when
         RequestParams request = new RequestParams(params);
-        
+
         // then
+        assertThat(request.getEcho()).isEqualTo(3);
+
         assertThat(request.getDisplayStart()).isEqualTo(20);
         assertThat(request.getDisplayLength()).isEqualTo(10);
-        
+
         assertThat(request.getColumns()).containsExactly("col1", "col2", "col3", "col4", "col5");
         assertThat(request.getSortingColsCount()).isEqualTo(3);
         assertThat(request.getSortCols()).containsExactly("col3", "col4", "col1");

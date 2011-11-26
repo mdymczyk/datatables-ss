@@ -12,8 +12,12 @@ class RequestParams {
         this.params = params;
     }
 
+    public int getEcho() {
+        return Integer.parseInt(getParam("sEcho"));
+    }
+
     public int getDisplayStart() {
-        return Integer.parseInt(getParam("iDisplayStart")); 
+        return Integer.parseInt(getParam("iDisplayStart"));
     }
 
     public List<String> getColumns() {
@@ -23,7 +27,7 @@ class RequestParams {
     public int getSortingColsCount() {
         return Integer.parseInt(getParam("iSortingCols"));
     }
-    
+
     public List<String> getSortCols() {
         List<String> columns = getColumns();
         List<String> sortingColumns = new ArrayList<String>();
@@ -44,9 +48,9 @@ class RequestParams {
     public int getDisplayLength() {
         return Integer.parseInt(getParam("iDisplayLength"));
     }
-    
+
     private String getParam(String key) {
         return params.get(key)[0];
     }
-    
+
 }
