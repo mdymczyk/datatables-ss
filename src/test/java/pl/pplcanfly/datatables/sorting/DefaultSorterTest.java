@@ -4,11 +4,6 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.stub;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,6 +15,7 @@ import pl.pplcanfly.datatables.ServerSideDataTable;
 import pl.pplcanfly.datatables.Something;
 import pl.pplcanfly.datatables.http.RequestParams;
 import pl.pplcanfly.datatables.types.Types;
+import pl.pplcanfly.datatables.utils.TestUtils;
 
 public class DefaultSorterTest {
     private ServerSideDataTable dataTable;
@@ -45,13 +41,13 @@ public class DefaultSorterTest {
         setSortCols(params, "foo");
         setSortDirs(params, "asc");
 
-        List<Something> rows = load("1");
+        List<Something> rows = TestUtils.load("1");
 
         // when
         sorter.sort(rows);
 
         // then
-        assertThat(rows).isEqualTo(load("1"));
+        assertThat(rows).isEqualTo(TestUtils.load("1"));
     }
 
     @Test
@@ -60,13 +56,13 @@ public class DefaultSorterTest {
         setSortCols(params, "foo");
         setSortDirs(params, "asc");
 
-        List<Something> rows = load("1");
+        List<Something> rows = TestUtils.load("1");
 
         // when
         List<?> processedRows = sorter.sort(rows);
 
         // then
-        assertThat(processedRows).isEqualTo(load("1_foo_asc"));
+        assertThat(processedRows).isEqualTo(TestUtils.load("1_foo_asc"));
     }
 
     @Test
@@ -75,13 +71,13 @@ public class DefaultSorterTest {
         setSortCols(params, "foo");
         setSortDirs(params, "desc");
 
-        List<Something> rows = load("1");
+        List<Something> rows = TestUtils.load("1");
 
         // when
         List<?> processedRows = sorter.sort(rows);
 
         // then
-        assertThat(processedRows).isEqualTo(load("1_foo_desc"));
+        assertThat(processedRows).isEqualTo(TestUtils.load("1_foo_desc"));
     }
 
     @Test
@@ -90,13 +86,13 @@ public class DefaultSorterTest {
         setSortCols(params, "foo");
         setSortDirs(params, "asc");
 
-        List<Something> rows = load("2");
+        List<Something> rows = TestUtils.load("2");
 
         // when
         List<?> processedRows = sorter.sort(rows);
 
         // then
-        assertThat(processedRows).isEqualTo(load("2_foo_asc"));
+        assertThat(processedRows).isEqualTo(TestUtils.load("2_foo_asc"));
     }
 
     @Test
@@ -105,13 +101,13 @@ public class DefaultSorterTest {
         setSortCols(params, "foo", "bar");
         setSortDirs(params, "asc", "asc");
 
-        List<Something> rows = load("2");
+        List<Something> rows = TestUtils.load("2");
 
         // when
         List<?> processedRows = sorter.sort(rows);
 
         // then
-        assertThat(processedRows).isEqualTo(load("2_foo_asc_bar_asc"));
+        assertThat(processedRows).isEqualTo(TestUtils.load("2_foo_asc_bar_asc"));
     }
 
     @Test
@@ -120,13 +116,13 @@ public class DefaultSorterTest {
         setSortCols(params, "foo", "bar");
         setSortDirs(params, "asc", "desc");
 
-        List<Something> rows = load("2");
+        List<Something> rows = TestUtils.load("2");
 
         // when
         List<?> processedRows = sorter.sort(rows);
 
         // then
-        assertThat(processedRows).isEqualTo(load("2_foo_asc_bar_desc"));
+        assertThat(processedRows).isEqualTo(TestUtils.load("2_foo_asc_bar_desc"));
     }
 
     @Test
@@ -141,13 +137,13 @@ public class DefaultSorterTest {
 
         DefaultSorter sorter = new DefaultSorter(dataTable, params);
 
-        List<Something> rows = load("3");
+        List<Something> rows = TestUtils.load("3");
 
         // when
         List<?> processedRows = sorter.sort(rows);
 
         // then
-        assertThat(processedRows).isEqualTo(load("3_foo_asc_revacc"));
+        assertThat(processedRows).isEqualTo(TestUtils.load("3_foo_asc_revacc"));
     }
 
     private void setSortCols(RequestParams params, String... cols) {
@@ -159,26 +155,5 @@ public class DefaultSorterTest {
         stub(params.getSortDirs()).toReturn(Arrays.asList(dirs));
     }
 
-    private List<Something> load(String file) {
-        InputStream is = this.getClass().getResourceAsStream("/fixtures/" + file);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        List<Something> list = new ArrayList<Something>();
-        String line = null;
-        while ((line = readLine(reader)) != null) {
-            String[] splitted = line.split(" ");
-            list.add(new Something(splitted[0], Integer.parseInt(splitted[1])));
-        }
-
-        return list;
-    }
-
-    private String readLine(BufferedReader reader) {
-        try {
-            return reader.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
 
 }
