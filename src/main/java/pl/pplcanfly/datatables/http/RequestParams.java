@@ -49,6 +49,24 @@ class RequestParams {
         return Integer.parseInt(getParam("iDisplayLength"));
     }
 
+    public String getSearch() {
+        return getParam("sSearch");
+    }
+
+    public List<String> getSearchableCols() {
+        List<String> searchableColumns = new ArrayList<String>();
+
+        List<String> columns = getColumns();
+        for (int i = 0; i < columns.size(); i++) {
+            boolean searchable = Boolean.parseBoolean(getParam("bSearchable_" + i));
+            if (searchable) {
+                searchableColumns.add(columns.get(i));
+            }
+        }
+
+        return searchableColumns;
+    }
+
     private String getParam(String key) {
         return params.get(key)[0];
     }
