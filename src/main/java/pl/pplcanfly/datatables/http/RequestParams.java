@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-class RequestParams {
+public class RequestParams {
     private Map<String, String[]> params;
 
     public RequestParams(Map<String, String[]> params) {

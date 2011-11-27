@@ -4,6 +4,8 @@ public class Something {
     private String foo;
     private int bar;
 
+    public Something() { }
+
     public Something(String foo, int bar) {
         this.foo = foo;
         this.bar = bar;

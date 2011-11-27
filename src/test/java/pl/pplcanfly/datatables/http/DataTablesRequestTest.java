@@ -3,21 +3,21 @@ package pl.pplcanfly.datatables.http;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.stub;
+import static org.mockito.Mockito.when;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import pl.pplcanfly.datatables.ReversingValueAccessor;
 import pl.pplcanfly.datatables.ServerSideDataTable;
 import pl.pplcanfly.datatables.Something;
+import pl.pplcanfly.datatables.sorting.Sorter;
 import pl.pplcanfly.datatables.types.Types;
 
 public class DataTablesRequestTest {
@@ -25,6 +25,7 @@ public class DataTablesRequestTest {
     private ServerSideDataTable dataTable;
     private RequestParams params;
     private DataTablesRequest request;
+    private Sorter sorter;
 
     @Before
     public void setUp() {
@@ -37,161 +38,46 @@ public class DataTablesRequestTest {
         stub(params.getDisplayLength()).toReturn(20);
 
         request = new DataTablesRequest(params);
+        sorter = mock(Sorter.class);
     }
 
     @Test
-    public void should_not_change_order_of_input_rows() {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public void should_set_response_params_after_sorting() {
         // given
-        setSortCols(params, "foo");
-        setSortDirs(params, "asc");
+        stub(params.getEcho()).toReturn(3);
 
         List<Something> rows = load("1");
+        List processed = new ArrayList<Something>();
+        processed.add(new Something());
+        processed.add(new Something());
+        when(sorter.sort(rows)).thenReturn(processed);
 
         // when
-        request.process(dataTable, rows);
+        DataTablesResponse response = request.process(dataTable, rows, sorter);
 
         // then
-        assertThat(rows).isEqualTo(load("1"));
+        assertThat(response.getParams().getEcho()).isEqualTo(3);
+        assertThat(response.getParams().getTotalRecords()).isEqualTo(4);
+        assertThat(response.getParams().getTotalDisplayRecords()).isEqualTo(2);
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void should_offset_and_limit_processed_rows() {
         // given
         stub(params.getDisplayStart()).toReturn(1);
         stub(params.getDisplayLength()).toReturn(2);
 
-        setSortCols(params, "foo");
-        setSortDirs(params, "asc");
-
         List<Something> rows = load("1");
+        List processed = load("1_foo_asc");
+        when(sorter.sort(rows)).thenReturn(processed);
 
         // when
-        DataTablesResponse response = request.process(dataTable, rows);
+        DataTablesResponse response = request.process(dataTable, rows, sorter);
 
         // then
         assertThat(response.getProcessedRows()).hasSize(2).onProperty("foo").containsExactly("b", "c");
-    }
-
-    @Test
-    public void should_set_response_params_after_sorting() {
-        // given
-        stub(params.getEcho()).toReturn(3);
-
-        setSortCols(params, "foo");
-        setSortDirs(params, "asc");
-
-        List<Something> rows = load("1");
-
-        // when
-        DataTablesResponse response = request.process(dataTable, rows);
-
-        // then
-        assertThat(response.getParams().getEcho()).isEqualTo(3);
-        assertThat(response.getParams().getTotalRecords()).isEqualTo(4);
-        assertThat(response.getParams().getTotalDisplayRecords()).isEqualTo(4);
-    }
-
-    @Test
-    public void should_sort_by_one_column_asc() {
-        // given
-        setSortCols(params, "foo");
-        setSortDirs(params, "asc");
-
-        List<Something> rows = load("1");
-
-        // when
-        DataTablesResponse response = request.process(dataTable, rows);
-
-        // then
-        assertThat(response.getProcessedRows()).isEqualTo(load("1_foo_asc"));
-    }
-
-    @Test
-    public void should_sort_by_one_column_desc() {
-        // given
-        setSortCols(params, "foo");
-        setSortDirs(params, "desc");
-
-        List<Something> rows = load("1");
-
-        // when
-        DataTablesResponse response = request.process(dataTable, rows);
-
-        // then
-        assertThat(response.getProcessedRows()).isEqualTo(load("1_foo_desc"));
-    }
-
-    @Test
-    public void should_preserve_order_of_elements_having_same_value_in_column() {
-        // given
-        setSortCols(params, "foo");
-        setSortDirs(params, "asc");
-
-        List<Something> rows = load("2");
-
-        // when
-        DataTablesResponse response = request.process(dataTable, rows);
-
-        // then
-        assertThat(response.getProcessedRows()).isEqualTo(load("2_foo_asc"));
-    }
-
-    @Test
-    public void should_sort_by_two_columns_both_asc() {
-        // given
-        setSortCols(params, "foo", "bar");
-        setSortDirs(params, "asc", "asc");
-
-        List<Something> rows = load("2");
-
-        // when
-        DataTablesResponse response = request.process(dataTable, rows);
-
-        // then
-        assertThat(response.getProcessedRows()).isEqualTo(load("2_foo_asc_bar_asc"));
-    }
-
-    @Test
-    public void should_sort_by_two_columns_asc_desc() {
-        // given
-        setSortCols(params, "foo", "bar");
-        setSortDirs(params, "asc", "desc");
-
-        List<Something> rows = load("2");
-
-        // when
-        DataTablesResponse response = request.process(dataTable, rows);
-
-        // then
-        assertThat(response.getProcessedRows()).isEqualTo(load("2_foo_asc_bar_desc"));
-    }
-
-    @Test
-    public void should_accept_custom_value_accessor() {
-        // given
-        ServerSideDataTable dataTable = new ServerSideDataTable();
-        dataTable.addColumn(Types.text(), "foo", new ReversingValueAccessor());
-        dataTable.addColumn(Types.numeric(), "bar");
-
-        setSortCols(params, "foo");
-        setSortDirs(params, "asc");
-
-        List<Something> rows = load("3");
-
-        // when
-        DataTablesResponse response = request.process(dataTable, rows);
-
-        // then
-        assertThat(response.getProcessedRows()).isEqualTo(load("3_foo_asc_revacc"));
-    }
-
-    private void setSortCols(RequestParams params, String... cols) {
-        stub(params.getSortCols()).toReturn(Arrays.asList(cols));
-        stub(params.getSortingColsCount()).toReturn(cols.length);
-    }
-
-    private void setSortDirs(RequestParams params, String... dirs) {
-        stub(params.getSortDirs()).toReturn(Arrays.asList(dirs));
     }
 
     private List<Something> load(String file) {
@@ -215,4 +101,6 @@ public class DataTablesRequestTest {
             throw new RuntimeException(e);
         }
     }
+
+
 }
