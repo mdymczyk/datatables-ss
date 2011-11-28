@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import pl.pplcanfly.datatables.ServerSideDataTable;
+import pl.pplcanfly.datatables.filtering.Filter;
 import pl.pplcanfly.datatables.sorting.DefaultSorter;
 import pl.pplcanfly.datatables.sorting.Sorter;
 
@@ -12,6 +13,7 @@ public class DataTablesRequest {
     private RequestParams params;
     private ServerSideDataTable dataTable;
     private Sorter sorter;
+    private Filter filter;
 
     public DataTablesRequest(Map<String, String[]> params, ServerSideDataTable dataTable) {
         this(new RequestParams(params), dataTable);
@@ -24,11 +26,12 @@ public class DataTablesRequest {
     }
 
     public DataTablesResponse process(List<?> rows) {
-        List<?> processedRows = sorter.sort(rows);
+        List<?> filtered = filter.filter(rows);
+        List<?> sorted = sorter.sort(filtered);
 
         return new DataTablesResponse(
-                new ResponseParams(params.getEcho(), rows.size(), processedRows.size()), dataTable,
-                offsetAndLimit(processedRows));
+                new ResponseParams(params.getEcho(), rows.size(), sorted.size()), dataTable,
+                offsetAndLimit(sorted));
     }
 
     private List<?> offsetAndLimit(List<?> processedRows) {
@@ -38,6 +41,10 @@ public class DataTablesRequest {
 
     void setSorter(Sorter sorter) {
         this.sorter = sorter;
+    }
+
+    void setFilter(Filter filter) {
+        this.filter = filter;
     }
 
 }
