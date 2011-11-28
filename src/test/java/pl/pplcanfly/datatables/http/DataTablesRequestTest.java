@@ -34,8 +34,9 @@ public class DataTablesRequestTest {
         stub(params.getDisplayStart()).toReturn(0);
         stub(params.getDisplayLength()).toReturn(20);
 
-        request = new DataTablesRequest(params);
         sorter = mock(Sorter.class);
+        request = new DataTablesRequest(params, dataTable);
+        request.setSorter(sorter);
     }
 
     @Test
@@ -51,7 +52,7 @@ public class DataTablesRequestTest {
         when(sorter.sort(rows)).thenReturn(processed);
 
         // when
-        DataTablesResponse response = request.process(dataTable, rows, sorter);
+        DataTablesResponse response = request.process(rows);
 
         // then
         assertThat(response.getParams().getEcho()).isEqualTo(3);
@@ -71,7 +72,7 @@ public class DataTablesRequestTest {
         when(sorter.sort(rows)).thenReturn(processed);
 
         // when
-        DataTablesResponse response = request.process(dataTable, rows, sorter);
+        DataTablesResponse response = request.process(rows);
 
         // then
         assertThat(response.getProcessedRows()).hasSize(2).onProperty("foo").containsExactly("b", "c");
