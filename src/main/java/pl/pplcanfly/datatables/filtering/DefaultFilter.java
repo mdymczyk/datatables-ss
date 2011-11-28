@@ -28,7 +28,14 @@ public class DefaultFilter implements Filter {
                 Column column = dataTable.findColumn(columnName);
                 sb.append(column.getValueAccessor().getValueFrom(row)).append(" ");
             }
-            if (sb.toString().matches(".*" + search + ".*")) {
+            String[] splitted = search.split(" ");
+            boolean matches = false;
+            for (String s : splitted) {
+                if (sb.toString().toLowerCase().matches(".*" + s.toLowerCase() + ".*")) {
+                    matches = true;
+                }
+            }
+            if (matches) {
                 filteredRows.add(row);
             }
         }

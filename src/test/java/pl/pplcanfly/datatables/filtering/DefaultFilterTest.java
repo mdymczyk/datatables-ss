@@ -49,4 +49,49 @@ public class DefaultFilterTest {
         assertThat(processedRows).hasSize(2).onProperty("foo").containsExactly("aax", "aay");
     }
 
+    @Test
+    public void should_match_numeric_columns_as_if_it_was_text() {
+        // given
+        stub(params.getSearchableCols()).toReturn(Arrays.asList("foo", "bar"));
+        stub(params.getSearch()).toReturn("22");
+
+        List<Something> rows = TestUtils.load("5");
+
+        // when
+        List<?> processedRows = filter.filter(rows);
+
+        // then
+        assertThat(processedRows).hasSize(2).onProperty("foo").containsExactly("11", "22");
+    }
+
+    @Test
+    public void should_match_multiple_words_in_multiple_columns() {
+        // given
+        stub(params.getSearchableCols()).toReturn(Arrays.asList("foo", "bar"));
+        stub(params.getSearch()).toReturn("55 44"); // even in reverse order
+
+        List<Something> rows = TestUtils.load("5");
+
+        // when
+        List<?> processedRows = filter.filter(rows);
+
+        // then
+        assertThat(processedRows).hasSize(1).onProperty("foo").containsExactly("44");
+    }
+
+    @Test
+    public void should_match_mixed_case_search_string() {
+        // given
+        stub(params.getSearchableCols()).toReturn(Arrays.asList("foo", "bar"));
+        stub(params.getSearch()).toReturn("aBcD");
+
+        List<Something> rows = TestUtils.load("6");
+
+        // when
+        List<?> processedRows = filter.filter(rows);
+
+        // then
+        assertThat(processedRows).hasSize(3).onProperty("foo").containsExactly("AbcD", "aBCD", "ABcd");
+    }
+
 }
