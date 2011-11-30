@@ -17,6 +17,14 @@ dependencies {
   testCompile 'org.mockito:mockito-core:1.8.5'
 }
 
+sourceSets {
+  benchmark {
+    java {
+      srcDir 'src/benchmark/java'
+    }
+  }
+}
+
 jar {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
