@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 public class ReflectionValueAccessor implements ValueAccessor {
 
     private String fieldName;
+    private Field field;
 
     public ReflectionValueAccessor(String fieldName) {
         this.fieldName = fieldName;
@@ -13,10 +14,11 @@ public class ReflectionValueAccessor implements ValueAccessor {
 
     @Override
     public Object getValueFrom(Object obj) {
-        Field field;
         try {
-            field = obj.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
+            if (field == null) {
+                field = obj.getClass().getDeclaredField(fieldName);
+                field.setAccessible(true);
+            }
             return field.get(obj);
         } catch (Exception e) {
             throw new ValueNotAccessibleException(e);
