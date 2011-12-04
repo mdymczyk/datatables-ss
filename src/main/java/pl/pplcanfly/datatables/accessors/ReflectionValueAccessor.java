@@ -19,7 +19,7 @@ public class ReflectionValueAccessor implements ValueAccessor {
     @Override
     public Object getValueFrom(Object obj) {
         if (field == null && method == null) {
-            initialize(obj);
+            initialize(obj.getClass());
         }
 
         try {
@@ -30,9 +30,7 @@ public class ReflectionValueAccessor implements ValueAccessor {
         }
     }
 
-    private void initialize(Object obj) {
-        Class<? extends Object> klass = obj.getClass();
-
+    private void initialize(Class<?> klass) {
         if (!tryToInitializeField(klass) && !tryToInitializeMethod(klass)) {
             throw new ValueNotAccessibleException(fieldName);
         }
