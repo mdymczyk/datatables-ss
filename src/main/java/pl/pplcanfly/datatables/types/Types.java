@@ -11,7 +11,7 @@ public abstract class Types {
     }
 
     public static Type date() {
-        return null;
+        return new DateType();
     }
 
 }

@@ -10,6 +10,7 @@ public class TypesTest {
     public void should_return_instances_of_type() {
         assertThat(Types.text()).isInstanceOf(TextType.class);
         assertThat(Types.numeric()).isInstanceOf(ComparableType.class);
+        assertThat(Types.date()).isInstanceOf(DateType.class);
     }
 
 }
