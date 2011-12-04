@@ -1,7 +1,9 @@
 package pl.pplcanfly.datatables.types;
 
 
-public abstract class Types {
+public final class Types {
+    private Types() {}
+
     public static Type numeric() {
         return new ComparableType();
     }
