@@ -7,7 +7,7 @@ public abstract class Types {
     }
 
     public static Type text() {
-        return new ComparableType();
+        return new TextType();
     }
 
 }
