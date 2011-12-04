@@ -10,4 +10,8 @@ public abstract class Types {
         return new TextType();
     }
 
+    public static Type date() {
+        return null;
+    }
+
 }
