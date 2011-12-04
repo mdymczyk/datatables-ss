@@ -25,26 +25,38 @@ public class ReflectionValueAccessor implements ValueAccessor {
         try {
             return field != null ? field.get(obj) : method.invoke(obj, (Object[])null);
         } catch (Exception e) {
-            throw new ValueNotAccessibleException(fieldName);
+            // initialization takes care of checking fields/methods
+            throw new RuntimeException(e);
         }
     }
 
     private void initialize(Object obj) {
         Class<? extends Object> klass = obj.getClass();
 
+        if (!tryToInitializeField(klass) && !tryToInitializeMethod(klass)) {
+            throw new ValueNotAccessibleException(fieldName);
+        }
+    }
+
+    private boolean tryToInitializeField(Class<? extends Object> klass) {
         field = findField(klass.getDeclaredFields());
         if (field == null) {
             field = findField(klass.getFields());
         }
         if (field != null) {
             field.setAccessible(true);
-        } else {
-            method = findMethod(klass.getDeclaredMethods());
-            if (method == null) {
-                method = findMethod(klass.getMethods());
-            }
         }
+        return field != null;
     }
+
+    private boolean tryToInitializeMethod(Class<? extends Object> klass) {
+        method = findMethod(klass.getDeclaredMethods());
+        if (method == null) {
+            method = findMethod(klass.getMethods());
+        }
+        return method != null;
+    }
+
 
     private Field findField(Field[] fields) {
         for (Field f : fields) {
