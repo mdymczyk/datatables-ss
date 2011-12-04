@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import pl.pplcanfly.datatables.ReversingValueAccessor;
 import pl.pplcanfly.datatables.Something;
-import pl.pplcanfly.datatables.SortOrder;
 import pl.pplcanfly.datatables.sorting.RowComparator;
 import pl.pplcanfly.datatables.types.Types;
 

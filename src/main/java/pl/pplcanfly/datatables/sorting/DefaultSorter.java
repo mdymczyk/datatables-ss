@@ -6,7 +6,6 @@ import java.util.List;
 
 import pl.pplcanfly.datatables.Column;
 import pl.pplcanfly.datatables.ServerSideDataTable;
-import pl.pplcanfly.datatables.SortOrder;
 import pl.pplcanfly.datatables.http.RequestParams;
 
 public class DefaultSorter implements Sorter {
