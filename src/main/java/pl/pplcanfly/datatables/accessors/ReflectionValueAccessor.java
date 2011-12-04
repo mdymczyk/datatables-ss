@@ -25,7 +25,7 @@ public class ReflectionValueAccessor implements ValueAccessor {
         try {
             return field != null ? field.get(obj) : method.invoke(obj, (Object[])null);
         } catch (Exception e) {
-            throw new ValueNotAccessibleException(e);
+            throw new ValueNotAccessibleException(fieldName);
         }
     }
 

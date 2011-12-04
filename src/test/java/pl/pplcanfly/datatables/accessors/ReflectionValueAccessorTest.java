@@ -2,14 +2,13 @@ package pl.pplcanfly.datatables.accessors;
 
 import static org.fest.assertions.Assertions.assertThat;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import pl.pplcanfly.datatables.Something;
-import pl.pplcanfly.datatables.accessors.ReflectionValueAccessor;
-import pl.pplcanfly.datatables.accessors.ValueNotAccessibleException;
 
 public class ReflectionValueAccessorTest {
-
     @Test
     public void should_get_value_from_object_by_declared_field() {
         // given
@@ -94,17 +93,22 @@ public class ReflectionValueAccessorTest {
         assertThat(value).isEqualTo("isBaz");
     }
 
-    @Test(expected=ValueNotAccessibleException.class)
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Test
     public void should_throw_exception_if_value_not_accessible() {
         // given
         Something s = new Something("name", 22);
+        String fieldName = "idontexist";
 
-        ReflectionValueAccessor accessor = new ReflectionValueAccessor("idontexist");
+        thrown.expect(ValueNotAccessibleException.class);
+        thrown.expectMessage(fieldName);
+
+        ReflectionValueAccessor accessor = new ReflectionValueAccessor(fieldName);
 
         // when
         accessor.getValueFrom(s);
-
-        // then throw exception
     }
 
 }
