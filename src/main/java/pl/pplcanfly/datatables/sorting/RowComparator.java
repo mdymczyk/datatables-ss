@@ -1,7 +1,8 @@
-package pl.pplcanfly.datatables;
+package pl.pplcanfly.datatables.sorting;
 
 import java.util.Comparator;
 
+import pl.pplcanfly.datatables.SortOrder;
 import pl.pplcanfly.datatables.accessors.ReflectionValueAccessor;
 import pl.pplcanfly.datatables.accessors.ValueAccessor;
 import pl.pplcanfly.datatables.types.Type;
