@@ -30,7 +30,7 @@ public class DataTablesRequest {
     public DataTablesResponse process(List<?> rows) {
         List<?> processed = rows;
 
-        if (params.getSearch() != "") {
+        if (!"".equals(params.getSearch())) {
             processed = filter.filter(processed);
         }
 
