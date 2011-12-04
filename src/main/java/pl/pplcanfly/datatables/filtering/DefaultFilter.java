@@ -27,7 +27,13 @@ public class DefaultFilter implements Filter {
     outer:
         for (Object row : rows) {
             for (Column column : columns) {
-                String columnValue = column.getValueAccessor().getValueFrom(row).toString();
+                String columnValue = "";
+
+                Object value = column.getValueAccessor().getValueFrom(row);
+                if (value != null) {
+                    columnValue = value.toString();
+                }
+
                 for (Pattern pattern : patterns) {
                     if (pattern.matcher(columnValue).matches()) {
                         filteredRows.add(row);

@@ -94,4 +94,19 @@ public class DefaultFilterTest {
         assertThat(processedRows).hasSize(3).onProperty("foo").containsExactly("AbcD", "aBCD", "ABcd");
     }
 
+    @Test
+    public void should_not_panic_if_there_is_null_in_data() {
+        // given
+        stub(params.getSearchableCols()).toReturn(Arrays.asList("foo", "bar"));
+        stub(params.getSearch()).toReturn("aBcD");
+
+        List<Something> rows = TestUtils.load("6");
+        rows.get(0).setFoo(null);
+
+        // when
+        filter.filter(rows);
+
+        // then should not throw NullPointer
+    }
+
 }
