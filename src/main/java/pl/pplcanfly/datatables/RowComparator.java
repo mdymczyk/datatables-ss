@@ -6,7 +6,7 @@ import pl.pplcanfly.datatables.accessors.ReflectionValueAccessor;
 import pl.pplcanfly.datatables.accessors.ValueAccessor;
 import pl.pplcanfly.datatables.types.Type;
 
-public class RowComparator implements Comparator<Object> {
+class RowComparator implements Comparator<Object> {
 
     private ValueAccessor valueAccessor;
     private Comparator<Object> valueComparator;

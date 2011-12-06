@@ -4,7 +4,7 @@ import pl.pplcanfly.datatables.accessors.ReflectionValueAccessor;
 import pl.pplcanfly.datatables.accessors.ValueAccessor;
 import pl.pplcanfly.datatables.types.Type;
 
-public class Column {
+class Column {
     private Type type;
     private String name;
     private ValueAccessor valueAccessor;

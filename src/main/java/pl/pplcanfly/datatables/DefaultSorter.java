@@ -6,7 +6,7 @@ import java.util.List;
 
 import pl.pplcanfly.datatables.params.RequestParams;
 
-public class DefaultSorter implements Sorter {
+class DefaultSorter implements Sorter {
 
     private ServerSideDataTable dataTable;
     private RequestParams params;

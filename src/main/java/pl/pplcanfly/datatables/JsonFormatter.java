@@ -8,7 +8,7 @@ import net.sf.json.JSONObject;
 
 import pl.pplcanfly.datatables.params.ResponseParams;
 
-public class JsonFormatter implements Formatter {
+class JsonFormatter implements Formatter {
 
     @Override
     public String format(ResponseParams params, ServerSideDataTable dataTable, List<?> rows) {

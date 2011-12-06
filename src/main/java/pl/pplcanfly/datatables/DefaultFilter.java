@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 import pl.pplcanfly.datatables.params.RequestParams;
 
-public class DefaultFilter implements Filter {
+class DefaultFilter implements Filter {
 
     private ServerSideDataTable dataTable;
     private RequestParams params;

@@ -1,6 +1,6 @@
 package pl.pplcanfly.datatables;
 
-public enum SortOrder {
+enum SortOrder {
     ASC  { public int applyTo(int comparisonResult) { return comparisonResult; } },
     DESC { public int applyTo(int comparisonResult) { return comparisonResult * -1; } };
 
