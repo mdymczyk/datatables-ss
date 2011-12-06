@@ -1,4 +1,4 @@
-package pl.pplcanfly.datatables.sorting;
+package pl.pplcanfly.datatables;
 
 import java.util.List;
 

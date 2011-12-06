@@ -1,12 +1,10 @@
-package pl.pplcanfly.datatables.sorting;
+package pl.pplcanfly.datatables;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import pl.pplcanfly.datatables.Column;
-import pl.pplcanfly.datatables.ServerSideDataTable;
-import pl.pplcanfly.datatables.http.RequestParams;
+import pl.pplcanfly.datatables.params.RequestParams;
 
 public class DefaultSorter implements Sorter {
 

@@ -1,12 +1,10 @@
-package pl.pplcanfly.datatables.filtering;
+package pl.pplcanfly.datatables;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import pl.pplcanfly.datatables.Column;
-import pl.pplcanfly.datatables.ServerSideDataTable;
-import pl.pplcanfly.datatables.http.RequestParams;
+import pl.pplcanfly.datatables.params.RequestParams;
 
 public class DefaultFilter implements Filter {
 

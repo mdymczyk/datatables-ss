@@ -1,4 +1,4 @@
-package pl.pplcanfly.datatables.http;
+package pl.pplcanfly.datatables;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.inOrder;
@@ -15,10 +15,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
 
+import pl.pplcanfly.datatables.DataTablesRequest;
+import pl.pplcanfly.datatables.DataTablesResponse;
 import pl.pplcanfly.datatables.ServerSideDataTable;
-import pl.pplcanfly.datatables.Something;
-import pl.pplcanfly.datatables.filtering.Filter;
-import pl.pplcanfly.datatables.sorting.Sorter;
+import pl.pplcanfly.datatables.params.RequestParams;
 import pl.pplcanfly.datatables.types.Types;
 import pl.pplcanfly.datatables.utils.TestUtils;
 

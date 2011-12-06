@@ -1,4 +1,4 @@
-package pl.pplcanfly.datatables.formatters;
+package pl.pplcanfly.datatables;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,7 @@ import java.util.List;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import pl.pplcanfly.datatables.Column;
-import pl.pplcanfly.datatables.ServerSideDataTable;
-import pl.pplcanfly.datatables.http.ResponseParams;
+import pl.pplcanfly.datatables.params.ResponseParams;
 
 public class JsonFormatter implements Formatter {
 

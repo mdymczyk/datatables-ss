@@ -1,4 +1,4 @@
-package pl.pplcanfly.datatables.sorting;
+package pl.pplcanfly.datatables;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -8,9 +8,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import pl.pplcanfly.datatables.ReversingValueAccessor;
-import pl.pplcanfly.datatables.Something;
-import pl.pplcanfly.datatables.sorting.RowComparator;
+import pl.pplcanfly.datatables.RowComparator;
+import pl.pplcanfly.datatables.SortOrder;
 import pl.pplcanfly.datatables.types.Types;
 
 public class RowComparatorTest {

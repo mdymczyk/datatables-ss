@@ -1,4 +1,4 @@
-package pl.pplcanfly.datatables.http;
+package pl.pplcanfly.datatables;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -7,8 +7,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import pl.pplcanfly.datatables.DataTablesResponse;
 import pl.pplcanfly.datatables.ServerSideDataTable;
-import pl.pplcanfly.datatables.Something;
+import pl.pplcanfly.datatables.params.ResponseParams;
 import pl.pplcanfly.datatables.types.Types;
 
 public class DataTablesResponseTest {

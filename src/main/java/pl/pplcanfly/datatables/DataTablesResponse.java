@@ -1,9 +1,8 @@
-package pl.pplcanfly.datatables.http;
+package pl.pplcanfly.datatables;
 
 import java.util.List;
 
-import pl.pplcanfly.datatables.ServerSideDataTable;
-import pl.pplcanfly.datatables.formatters.JsonFormatter;
+import pl.pplcanfly.datatables.params.ResponseParams;
 
 public class DataTablesResponse {
 

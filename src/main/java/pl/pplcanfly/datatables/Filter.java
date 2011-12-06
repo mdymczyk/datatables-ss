@@ -1,4 +1,4 @@
-package pl.pplcanfly.datatables.filtering;
+package pl.pplcanfly.datatables;
 
 import java.util.List;
 

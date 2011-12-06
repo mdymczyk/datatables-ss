@@ -1,4 +1,4 @@
-package pl.pplcanfly.datatables.filtering;
+package pl.pplcanfly.datatables;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -11,8 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pl.pplcanfly.datatables.ServerSideDataTable;
-import pl.pplcanfly.datatables.Something;
-import pl.pplcanfly.datatables.http.RequestParams;
+import pl.pplcanfly.datatables.params.RequestParams;
 import pl.pplcanfly.datatables.types.Types;
 import pl.pplcanfly.datatables.utils.TestUtils;
 

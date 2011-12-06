@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import pl.pplcanfly.datatables.DataTablesRequest;
 import pl.pplcanfly.datatables.ServerSideDataTable;
 import pl.pplcanfly.datatables.accessors.ValueAccessor;
-import pl.pplcanfly.datatables.http.DataTablesRequest;
 import pl.pplcanfly.datatables.types.Types;
 
 class Benchmark {

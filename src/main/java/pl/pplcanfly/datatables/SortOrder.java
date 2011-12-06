@@ -1,4 +1,4 @@
-package pl.pplcanfly.datatables.sorting;
+package pl.pplcanfly.datatables;
 
 public enum SortOrder {
     ASC  { public int applyTo(int comparisonResult) { return comparisonResult; } },

@@ -1,13 +1,10 @@
-package pl.pplcanfly.datatables.http;
+package pl.pplcanfly.datatables;
 
 import java.util.List;
 import java.util.Map;
 
-import pl.pplcanfly.datatables.ServerSideDataTable;
-import pl.pplcanfly.datatables.filtering.DefaultFilter;
-import pl.pplcanfly.datatables.filtering.Filter;
-import pl.pplcanfly.datatables.sorting.DefaultSorter;
-import pl.pplcanfly.datatables.sorting.Sorter;
+import pl.pplcanfly.datatables.params.RequestParams;
+import pl.pplcanfly.datatables.params.ResponseParams;
 
 public class DataTablesRequest {
 

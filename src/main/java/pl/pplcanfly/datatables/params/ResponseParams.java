@@ -1,4 +1,4 @@
-package pl.pplcanfly.datatables.http;
+package pl.pplcanfly.datatables.params;
 
 public class ResponseParams {
     private int echo;
