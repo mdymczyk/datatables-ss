@@ -18,11 +18,11 @@ public class ServerSideDataTable {
         columns.add(new Column(type, name, valueAccessor));
     }
 
-    public List<Column> getColumns() {
+    List<Column> getColumns() {
         return columns;
     }
 
-    public Column findColumn(String columnName) {
+    Column findColumn(String columnName) {
         for (Column c : getColumns()) {
             if (c.getName().equals(columnName)) {
                 return c;

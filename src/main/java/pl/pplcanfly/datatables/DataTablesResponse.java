@@ -24,7 +24,7 @@ public class DataTablesResponse {
         return new JsonFormatter().format(params, dataTable, processedRows);
     }
 
-    public ResponseParams getParams() {
+    ResponseParams getParams() {
         return params;
     }
 
