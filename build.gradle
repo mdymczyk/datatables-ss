@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'sonar'
 
 version = '0.0.1'
@@ -8,7 +9,7 @@ sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
@@ -16,6 +17,7 @@ dependencies {
   testCompile 'junit:junit:4.10'
   testCompile 'org.easytesting:fest-assert:1.4'
   testCompile 'org.mockito:mockito-core:1.8.5'
+  testRuntime 'net.sourceforge.cobertura:cobertura:1.9.3'
 }
 
 sourceSets {
@@ -26,6 +28,12 @@ sourceSets {
   }
 }
 
+buildscript {
+  // using a variable to make wiki look cleaner
+  def githubBase = 'https://github.com/valkolovos/gradle_cobertura/raw/master/ivy'
+  apply from: "${githubBase}/gradle_cobertura/gradle_cobertura/1.0-rc4/coberturainit.gradle"
+}
+
 jar {
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+  from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
