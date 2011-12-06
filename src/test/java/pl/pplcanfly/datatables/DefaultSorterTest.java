@@ -23,9 +23,10 @@ public class DefaultSorterTest {
 
     @Before
     public void setUp() {
-        dataTable = new ServerSideDataTable();
-        dataTable.addColumn(Types.text(), "foo");
-        dataTable.addColumn(Types.numeric(), "bar");
+        dataTable = ServerSideDataTable.build()
+                .column(Types.text(), "foo")
+                .column(Types.numeric(), "bar")
+                .done();
 
         params = mock(RequestParams.class);
         stub(params.getDisplayStart()).toReturn(0);
@@ -127,9 +128,10 @@ public class DefaultSorterTest {
     @Test
     public void should_accept_custom_value_accessor() {
         // given
-        ServerSideDataTable dataTable = new ServerSideDataTable();
-        dataTable.addColumn(Types.text(), "foo", new ReversingValueAccessor());
-        dataTable.addColumn(Types.numeric(), "bar");
+        ServerSideDataTable dataTable = ServerSideDataTable.build()
+                .column(Types.text(), "foo", new ReversingValueAccessor())
+                .column(Types.numeric(), "bar")
+                .done();
 
         setSortCols(params, "foo");
         setSortDirs(params, "asc");

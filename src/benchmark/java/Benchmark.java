@@ -94,20 +94,22 @@ class Benchmark {
     }
 
     private static void initializeTableAllByReflection() {
-        dataTable = new ServerSideDataTable();
-        dataTable.addColumn(Types.text(), "first");
-        dataTable.addColumn(Types.text(), "second");
+        dataTable = ServerSideDataTable.build()
+                .column(Types.text(), "first")
+                .column(Types.text(), "second")
+                .done();
     }
 
     private static void initializeTableWithCustom() {
-        dataTable = new ServerSideDataTable();
-        dataTable.addColumn(Types.text(), "first", new ValueAccessor() {
-            @Override
-            public Object getValueFrom(Object obj) {
-                return ((ExampleRow) obj).getFirst();
-            }
-        });
-        dataTable.addColumn(Types.text(), "second");
+        dataTable = ServerSideDataTable.build()
+                .column(Types.text(), "first", new ValueAccessor() {
+                    @Override
+                    public Object getValueFrom(Object obj) {
+                        return ((ExampleRow) obj).getFirst();
+                    }
+                })
+                .column(Types.text(), "second")
+                .done();
     }
 
     private static void initializeParams() {

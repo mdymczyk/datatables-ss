@@ -22,9 +22,10 @@ public class DefaultFilterTest {
 
     @Before
     public void setUp() {
-        dataTable = new ServerSideDataTable();
-        dataTable.addColumn(Types.text(), "foo");
-        dataTable.addColumn(Types.numeric(), "bar");
+        dataTable = ServerSideDataTable.build()
+                .column(Types.text(), "foo")
+                .column(Types.numeric(), "bar")
+                .done();
 
         params = mock(RequestParams.class);
         stub(params.getDisplayStart()).toReturn(0);

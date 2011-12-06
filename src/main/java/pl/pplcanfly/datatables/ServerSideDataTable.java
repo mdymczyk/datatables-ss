@@ -10,12 +10,10 @@ public class ServerSideDataTable {
 
     private List<Column> columns = new ArrayList<Column>();
 
-    public void addColumn(Type type, String name) {
-        columns.add(new Column(type, name));
-    }
+    private ServerSideDataTable() { }
 
-    public void addColumn(Type type, String name, ValueAccessor valueAccessor) {
-        columns.add(new Column(type, name, valueAccessor));
+    public static Builder build() {
+        return new Builder();
     }
 
     List<Column> getColumns() {
@@ -29,6 +27,29 @@ public class ServerSideDataTable {
             }
         }
         return null;
+    }
+
+    public static class Builder {
+        private ServerSideDataTable dataTable;
+
+        public Builder() {
+            dataTable = new ServerSideDataTable();
+        }
+
+        public Builder column(Type type, String name) {
+            dataTable.getColumns().add(new Column(type, name));
+            return this;
+        }
+
+        public Builder column(Type type, String name, ValueAccessor valueAccessor) {
+            dataTable.getColumns().add(new Column(type, name, valueAccessor));
+            return this;
+        }
+
+        public ServerSideDataTable done() {
+            return dataTable;
+        }
+
     }
 
 }
