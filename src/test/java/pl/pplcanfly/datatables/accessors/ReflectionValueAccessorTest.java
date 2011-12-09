@@ -111,6 +111,19 @@ public class ReflectionValueAccessorTest {
         accessor.getValueFrom(s);
     }
 
+    @Test
+    public void should_throw_exception_if_getter_is_not_valid() {
+        // given
+        InvalidGetter obj = new InvalidGetter();
+
+        thrown.expect(ValueNotAccessibleException.class);
+
+        ReflectionValueAccessor accessor = new ReflectionValueAccessor("foo");
+
+        // when
+        accessor.getValueFrom(obj);
+    }
+
 }
 
 class RefSomething {
@@ -138,5 +151,11 @@ class RefSomethingSub extends RefSomething {
 
     public String isBaz() {
         return "isBaz";
+    }
+}
+
+class InvalidGetter {
+    public String getFoo(int boo) {
+        return "";
     }
 }

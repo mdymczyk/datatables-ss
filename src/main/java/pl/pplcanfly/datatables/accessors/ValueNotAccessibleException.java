@@ -8,4 +8,9 @@ public class ValueNotAccessibleException extends RuntimeException {
         super(fieldName);
     }
 
+    public ValueNotAccessibleException(String fieldName, Throwable cause) {
+        this(fieldName);
+        initCause(cause);
+    }
+
 }

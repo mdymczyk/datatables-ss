@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class ReflectionValueAccessor implements ValueAccessor {
 
     private String fieldName;
@@ -25,8 +24,7 @@ public class ReflectionValueAccessor implements ValueAccessor {
         try {
             return field != null ? field.get(obj) : method.invoke(obj, (Object[])null);
         } catch (Exception e) {
-            // initialization takes care of checking fields/methods
-            throw new RuntimeException(e);
+            throw new ValueNotAccessibleException(fieldName, e);
         }
     }
 
