@@ -1,7 +1,10 @@
 package pl.pplcanfly.datatables;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 import pl.pplcanfly.datatables.accessors.ValueAccessor;
 import pl.pplcanfly.datatables.types.Type;
@@ -26,7 +29,16 @@ public class ServerSideDataTable {
                 return c;
             }
         }
-        return null;
+        throw new ColumnNotFoundException(String.format("%s, defined columns = [%s]", columnName,
+                getDefinedColumnNames()));
+    }
+
+    private String getDefinedColumnNames() {
+        List<String> names = new ArrayList<String>();
+        for (Column column : columns) {
+            names.add(column.getName());
+        }
+        return StringUtils.join(names, ", ");
     }
 
     public static class Builder {
