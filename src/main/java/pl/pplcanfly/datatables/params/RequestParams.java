@@ -12,22 +12,37 @@ public class RequestParams {
         this.params = params;
     }
 
+    /**
+     * @return sEcho, casted to int due to security reasons (XSS attacks)
+     */
     public int getEcho() {
         return Integer.parseInt(getParam("sEcho"));
     }
 
+    /**
+     * @return iDisplayStart
+     */
     public int getDisplayStart() {
         return Integer.parseInt(getParam("iDisplayStart"));
     }
 
+    /**
+     * @return List of all column names, based on sColumns param
+     */
     public List<String> getColumns() {
         return Arrays.asList(getParam("sColumns").split(","));
     }
 
+    /**
+     * @return iSortingCols
+     */
     public int getSortingColsCount() {
         return Integer.parseInt(getParam("iSortingCols"));
     }
 
+    /**
+     * @return List of column names being sorted on
+     */
     public List<String> getSortCols() {
         List<String> columns = getColumns();
         List<String> sortingColumns = new ArrayList<String>();
@@ -37,6 +52,9 @@ public class RequestParams {
         return sortingColumns;
     }
 
+    /**
+     * @return List of sort directions based on sSortDir_X params
+     */
     public List<String> getSortDirs() {
         List<String> sortDirs = new ArrayList<String>();
         for (int i = 0; i < getSortingColsCount(); i++) {
@@ -45,14 +63,23 @@ public class RequestParams {
         return sortDirs;
     }
 
+    /**
+     * @return iDisplayLength
+     */
     public int getDisplayLength() {
         return Integer.parseInt(getParam("iDisplayLength"));
     }
 
+    /**
+     * @return sSearch
+     */
     public String getSearch() {
         return getParam("sSearch");
     }
 
+    /**
+     * @return List of column names based on bSearchable_X params
+     */
     public List<String> getSearchableCols() {
         List<String> searchableColumns = new ArrayList<String>();
 
