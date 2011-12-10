@@ -22,22 +22,30 @@ class DefaultFilter implements Filter {
         List<Pattern> patterns = precompile();
         List<Column> columns = findColumns();
 
-    outer:
         for (Object row : rows) {
-            for (Column column : columns) {
-                String columnValue = "";
+            boolean allPatternsWereMatched = true;
 
-                Object value = column.getValueAccessor().getValueFrom(row);
-                if (value != null) {
-                    columnValue = value.toString();
-                }
+            for (Pattern pattern : patterns) {
+                boolean patternMatchesAnyColumn = false;
 
-                for (Pattern pattern : patterns) {
+                for (Column column : columns) {
+                    String columnValue = "";
+
+                    Object value = column.getValueAccessor().getValueFrom(row);
+                    if (value != null) {
+                        columnValue = value.toString();
+                    }
+
                     if (pattern.matcher(columnValue).matches()) {
-                        filteredRows.add(row);
-                        continue outer;
+                        patternMatchesAnyColumn = true;
                     }
                 }
+
+                allPatternsWereMatched = allPatternsWereMatched && patternMatchesAnyColumn;
+            }
+
+            if (allPatternsWereMatched) {
+                filteredRows.add(row);
             }
         }
 

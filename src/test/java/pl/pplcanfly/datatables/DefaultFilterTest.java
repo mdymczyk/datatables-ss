@@ -80,6 +80,21 @@ public class DefaultFilterTest {
     }
 
     @Test
+    public void should_match_nothing_if_row_does_not_conain_both_search_words() {
+        // given
+        stub(params.getSearchableCols()).toReturn(Arrays.asList("foo", "bar"));
+        stub(params.getSearch()).toReturn("55 XX"); // 55 matches but XX does not
+
+        List<Something> rows = TestUtils.load("6");
+
+        // when
+        List<?> processedRows = filter.filter(rows);
+
+        // then
+        assertThat(processedRows).hasSize(0);
+    }
+
+    @Test
     public void should_match_mixed_case_search_string() {
         // given
         stub(params.getSearchableCols()).toReturn(Arrays.asList("foo", "bar"));
