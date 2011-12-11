@@ -73,4 +73,56 @@ public class RequestParamsTest {
         assertThat(request.getSearch()).isEqualTo("searching for the meaining");
         assertThat(request.getSearchableCols()).containsExactly("col1", "col3", "col5");
     }
+
+    @Test
+    public void should_return_true_if_there_are_sorting_columns() {
+        // given
+        Map<String, String[]> params = new HashMap<String, String[]>();
+        params.put("iSortingCols", new String[]{"3"});
+
+        // when
+        RequestParams requestParams = new RequestParams(params);
+
+        // then
+        assertThat(requestParams.hasSortingParams()).isTrue();
+    }
+
+    @Test
+    public void should_return_false_if_there_are_no_sorting_columns() {
+        // given
+        Map<String, String[]> params = new HashMap<String, String[]>();
+        params.put("iSortingCols", new String[]{"0"});
+
+        // when
+        RequestParams requestParams = new RequestParams(params);
+
+        // then
+        assertThat(requestParams.hasSortingParams()).isFalse();
+    }
+
+    @Test
+    public void should_return_true_if_search_string_is_blank() {
+        // given
+        Map<String, String[]> params = new HashMap<String, String[]>();
+        params.put("sSearch", new String[]{"foooo"});
+
+        // when
+        RequestParams requestParams = new RequestParams(params);
+
+        // then
+        assertThat(requestParams.hasSearchParams()).isTrue();
+    }
+
+    @Test
+    public void should_return_false_if_search_string_is_blank() {
+        // given
+        Map<String, String[]> params = new HashMap<String, String[]>();
+        params.put("sSearch", new String[]{""});
+
+        // when
+        RequestParams requestParams = new RequestParams(params);
+
+        // then
+        assertThat(requestParams.hasSearchParams()).isFalse();
+    }
 }

@@ -94,6 +94,14 @@ public class RequestParams {
         return searchableColumns;
     }
 
+    public boolean hasSortingParams() {
+        return getSortingColsCount() != 0;
+    }
+
+    public boolean hasSearchParams() {
+        return !"".equals(getSearch());
+    }
+
     private String getParam(String key) {
         return params.get(key)[0];
     }

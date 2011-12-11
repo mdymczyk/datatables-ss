@@ -54,8 +54,8 @@ public class DataTablesRequestTest {
     public void should_filter_first_and_then_sort() {
         // given
         stub(params.getEcho()).toReturn(3);
-        stub(params.getSearch()).toReturn("aaa");
-        stub(params.getSortingColsCount()).toReturn(1);
+        stub(params.hasSearchParams()).toReturn(true);
+        stub(params.hasSortingParams()).toReturn(true);
 
         List<Something> rows = new ArrayList<Something>();
         List filtered = new ArrayList<Something>();
@@ -78,8 +78,8 @@ public class DataTablesRequestTest {
     @SuppressWarnings({ "rawtypes" })
     public void should_skip_filtering_if_theres_no_search_string() {
         // given
-        stub(params.getSearch()).toReturn("");
-        stub(params.getSortingColsCount()).toReturn(1);
+        stub(params.hasSearchParams()).toReturn(false);
+        stub(params.hasSortingParams()).toReturn(true);
 
         List<Something> rows = new ArrayList<Something>();
         List filtered = new ArrayList<Something>();
@@ -95,8 +95,8 @@ public class DataTablesRequestTest {
     @Test
     public void should_skip_sorting_if_theres_are_no_sort_criteria() {
         // given
-        stub(params.getSearch()).toReturn("aaa");
-        stub(params.getSortingColsCount()).toReturn(0);
+        stub(params.hasSearchParams()).toReturn(true);
+        stub(params.hasSortingParams()).toReturn(false);
 
         List<Something> rows = new ArrayList<Something>();
 
@@ -113,7 +113,7 @@ public class DataTablesRequestTest {
     public void should_set_response_params_after_sorting() {
         // given
         stub(params.getEcho()).toReturn(3);
-        stub(params.getSearch()).toReturn("aaa");
+        stub(params.hasSearchParams()).toReturn(true);
 
         List<Something> rows = TestUtils.load("1");
         List processed = new ArrayList<Something>();
@@ -138,7 +138,7 @@ public class DataTablesRequestTest {
         stub(params.getDisplayStart()).toReturn(1);
         stub(params.getDisplayLength()).toReturn(2);
 
-        stub(params.getSearch()).toReturn("aaa");
+        stub(params.hasSearchParams()).toReturn(true);
 
         List<Something> rows = TestUtils.load("1");
         List processed = TestUtils.load("1_foo_asc");

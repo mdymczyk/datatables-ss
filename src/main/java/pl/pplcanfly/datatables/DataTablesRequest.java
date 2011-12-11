@@ -27,11 +27,11 @@ public class DataTablesRequest {
     public DataTablesResponse process(List<?> rows) {
         List<?> processed = rows;
 
-        if (!"".equals(params.getSearch())) {
+        if (params.hasSearchParams()) {
             processed = filter.filter(processed);
         }
 
-        if (params.getSortingColsCount() != 0) {
+        if (params.hasSortingParams()) {
             processed = sorter.sort(processed);
         }
 
