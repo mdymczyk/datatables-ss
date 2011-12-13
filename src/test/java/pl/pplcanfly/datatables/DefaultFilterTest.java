@@ -35,6 +35,21 @@ public class DefaultFilterTest {
     }
 
     @Test
+    public void should_not_alter_input_list() {
+        // given
+        stub(params.getSearchableCols()).toReturn(Arrays.asList("foo"));
+        stub(params.getSearch()).toReturn("aa");
+
+        List<Something> rows = TestUtils.load("4");
+
+        // when
+        filter.filter(rows);
+
+        // then
+        assertThat(rows).hasSize(4);
+    }
+
+    @Test
     public void should_filter_records_by_single_column() {
         // given
         stub(params.getSearchableCols()).toReturn(Arrays.asList("foo"));
