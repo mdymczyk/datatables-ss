@@ -2,24 +2,15 @@ package pl.pplcanfly.datatables;
 
 import java.util.Comparator;
 
-import pl.pplcanfly.datatables.accessors.ReflectionValueAccessor;
-import pl.pplcanfly.datatables.accessors.ValueAccessor;
-import pl.pplcanfly.datatables.types.Type;
-
 class RowComparator implements Comparator<Object> {
 
-    private ValueAccessor valueAccessor;
-    private Comparator<Object> valueComparator;
+    private Column column;
     private SortOrder sortOrder;
+
     private RowComparator next;
 
-    public RowComparator(Type type, SortOrder sortOrder, String fieldName) {
-        this(type, sortOrder, new ReflectionValueAccessor(fieldName));
-    }
-
-    public RowComparator(Type type, SortOrder sortOrder, ValueAccessor valueAccessor) {
-        this.valueAccessor = valueAccessor;
-        this.valueComparator = type;
+    public RowComparator(Column column, SortOrder sortOrder) {
+        this.column = column;
         this.sortOrder = sortOrder;
     }
 
@@ -37,8 +28,7 @@ class RowComparator implements Comparator<Object> {
 
     @Override
     public int compare(Object o1, Object o2) {
-        int comparisonResult = valueComparator.compare(valueAccessor.getValueFrom(o1),
-                valueAccessor.getValueFrom(o2));
+        int comparisonResult = column.getType().compare(column.getValueFrom(o1), column.getValueFrom(o2));
 
         if (comparisonResult == 0) {
             return hasNextAppended() ? next.compare(o1, o2) : comparisonResult;

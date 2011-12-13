@@ -30,7 +30,7 @@ class DefaultFilter implements Filter {
                 for (Column column : columns) {
                     String columnValue = "";
 
-                    Object value = column.getValueAccessor().getValueFrom(row);
+                    Object value = column.getValueFrom(row);
                     if (value != null) {
                         columnValue = value.toString();
                     }

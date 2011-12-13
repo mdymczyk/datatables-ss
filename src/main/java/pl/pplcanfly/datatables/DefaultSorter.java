@@ -31,8 +31,8 @@ class DefaultSorter implements Sorter {
             String sortColumnName = params.getSortCols().get(i);
             Column column = dataTable.findColumn(sortColumnName);
 
-            RowComparator newComparator = new RowComparator(column.getType(), SortOrder.valueOf(params.getSortDirs()
-                        .get(i).toUpperCase()), column.getValueAccessor());
+            RowComparator newComparator = new RowComparator(column,
+                    SortOrder.valueOf(params.getSortDirs().get(i).toUpperCase()));
 
             if (comparator == null) {
                 comparator = newComparator;

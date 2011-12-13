@@ -28,7 +28,11 @@ class Column {
         return name;
     }
 
-    public ValueAccessor getValueAccessor() {
+    public Object getValueFrom(Object row) {
+        return valueAccessor.getValueFrom(row);
+    }
+
+    ValueAccessor getValueAccessor() {
         return valueAccessor;
     }
 

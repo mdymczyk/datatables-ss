@@ -22,7 +22,7 @@ public class RowComparatorTest {
         Something s3 = new Something("u3", 5);
         List<Object> list = toList(s1, s2, s3);
 
-        RowComparator comparator = new RowComparator(Types.numeric(), SortOrder.ASC, "bar");
+        RowComparator comparator = new RowComparator(new Column(Types.numeric(), "bar"), SortOrder.ASC);
 
         // when
         Collections.sort(list, comparator);
@@ -39,7 +39,7 @@ public class RowComparatorTest {
         Something s3 = new Something("u3", 5);
         List<Object> list = toList(s1, s2, s3);
 
-        RowComparator comparator = new RowComparator(Types.numeric(), SortOrder.DESC, "bar");
+        RowComparator comparator = new RowComparator(new Column(Types.numeric(), "bar"), SortOrder.DESC);
 
         // when
         Collections.sort(list, comparator);
@@ -56,8 +56,8 @@ public class RowComparatorTest {
         Something s3 = new Something("bbb", 2);
         List<Object> list = toList(s1, s2, s3);
 
-        RowComparator comparator = new RowComparator(Types.text(), SortOrder.ASC, "foo");
-        comparator.append(new RowComparator(Types.numeric(), SortOrder.ASC, "bar"));
+        RowComparator comparator = new RowComparator(new Column(Types.text(), "foo"), SortOrder.ASC);
+        comparator.append(new RowComparator(new Column(Types.numeric(), "bar"), SortOrder.ASC));
 
         // when
         Collections.sort(list, comparator);
@@ -74,8 +74,8 @@ public class RowComparatorTest {
         Something s3 = new Something("bbb", 2);
         List<Object> list = toList(s1, s2, s3);
 
-        RowComparator comparator = new RowComparator(Types.text(), SortOrder.DESC, "foo");
-        comparator.append(new RowComparator(Types.numeric(), SortOrder.DESC, "bar"));
+        RowComparator comparator = new RowComparator(new Column(Types.text(), "foo"), SortOrder.DESC);
+        comparator.append(new RowComparator(new Column(Types.numeric(), "bar"), SortOrder.DESC));
 
         // when
         Collections.sort(list, comparator);
@@ -92,7 +92,7 @@ public class RowComparatorTest {
         Something s3 = new Something("abc1", 1);
         List<Object> list = toList(s1, s2, s3);
 
-        RowComparator comparator = new RowComparator(Types.text(), SortOrder.ASC, new ReversingValueAccessor());
+        RowComparator comparator = new RowComparator(new Column(Types.text(), "foo", new ReversingValueAccessor()), SortOrder.ASC);
 
         // when
         Collections.sort(list, comparator);
@@ -109,7 +109,7 @@ public class RowComparatorTest {
         Something s3 = new Something("abc3", 1);
         List<Object> list = toList(s1, s2, s3);
 
-        RowComparator comparator = new RowComparator(Types.text(), SortOrder.DESC, new ReversingValueAccessor());
+        RowComparator comparator = new RowComparator(new Column(Types.text(), "foo", new ReversingValueAccessor()), SortOrder.DESC);
 
         // when
         Collections.sort(list, comparator);
@@ -121,10 +121,10 @@ public class RowComparatorTest {
     @Test
     public void should_append_comparators_to_existing_one() {
         // given
-        RowComparator comparator1 = new RowComparator(Types.text(), SortOrder.DESC, "foo");
-        RowComparator comparator2 = new RowComparator(Types.text(), SortOrder.DESC, "foo");
-        RowComparator comparator3 = new RowComparator(Types.text(), SortOrder.DESC, "foo");
-        RowComparator comparator4 = new RowComparator(Types.text(), SortOrder.DESC, "foo");
+        RowComparator comparator1 = new RowComparator(new Column(Types.text(), "foo"), SortOrder.DESC);
+        RowComparator comparator2 = new RowComparator(new Column(Types.text(), "foo"), SortOrder.DESC);
+        RowComparator comparator3 = new RowComparator(new Column(Types.text(), "foo"), SortOrder.DESC);
+        RowComparator comparator4 = new RowComparator(new Column(Types.text(), "foo"), SortOrder.DESC);
 
         // when
         comparator1.append(comparator2);
