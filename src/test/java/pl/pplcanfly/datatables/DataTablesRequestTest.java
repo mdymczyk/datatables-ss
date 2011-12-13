@@ -19,7 +19,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
 
-import pl.pplcanfly.datatables.params.RequestParams;
 import pl.pplcanfly.datatables.types.Types;
 import pl.pplcanfly.datatables.utils.TestUtils;
 

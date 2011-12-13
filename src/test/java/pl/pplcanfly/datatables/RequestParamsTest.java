@@ -1,4 +1,4 @@
-package pl.pplcanfly.datatables.params;
+package pl.pplcanfly.datatables;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import pl.pplcanfly.datatables.params.RequestParams;
+import pl.pplcanfly.datatables.RequestParams;
 
 public class RequestParamsTest {
 

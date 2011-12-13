@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import pl.pplcanfly.datatables.params.RequestParams;
 import pl.pplcanfly.datatables.types.Types;
 
 public class JsonFormatterTest {

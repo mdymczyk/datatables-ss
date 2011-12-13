@@ -3,7 +3,6 @@ package pl.pplcanfly.datatables;
 import java.util.List;
 import java.util.Map;
 
-import pl.pplcanfly.datatables.params.RequestParams;
 
 public class DataTablesRequest {
 

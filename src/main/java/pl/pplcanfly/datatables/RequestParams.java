@@ -1,4 +1,4 @@
-package pl.pplcanfly.datatables.params;
+package pl.pplcanfly.datatables;
 
 import java.util.ArrayList;
 import java.util.Arrays;

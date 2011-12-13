@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import pl.pplcanfly.datatables.params.RequestParams;
 
 class JsonFormatter implements Formatter {
 
