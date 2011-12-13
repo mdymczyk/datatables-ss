@@ -2,6 +2,7 @@ package pl.pplcanfly.datatables;
 
 import java.util.List;
 
+import pl.pplcanfly.datatables.params.RequestParams;
 import pl.pplcanfly.datatables.params.ResponseParams;
 
 public class DataTablesResponse {
@@ -9,8 +10,10 @@ public class DataTablesResponse {
     private List<?> processedRows;
     private ServerSideDataTable dataTable;
     private ResponseParams params;
+    private RequestParams requestParams;
 
-    public DataTablesResponse(ResponseParams params, ServerSideDataTable dataTable, List<?> processedRows) {
+    public DataTablesResponse(RequestParams requestParams, ResponseParams params, ServerSideDataTable dataTable, List<?> processedRows) {
+        this.requestParams = requestParams;
         this.params = params;
         this.processedRows = processedRows;
         this.dataTable = dataTable;
@@ -21,7 +24,7 @@ public class DataTablesResponse {
     }
 
     public String toJson() {
-        return new JsonFormatter().format(params, dataTable, processedRows);
+        return new JsonFormatter().format(requestParams, params, dataTable, processedRows);
     }
 
     ResponseParams getParams() {

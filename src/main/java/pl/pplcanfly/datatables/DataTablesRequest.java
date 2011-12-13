@@ -35,7 +35,7 @@ public class DataTablesRequest {
             processed = sorter.sort(processed);
         }
 
-        return new DataTablesResponse(
+        return new DataTablesResponse(params,
                 new ResponseParams(params.getEcho(), rows.size(), processed.size()), dataTable,
                 offsetAndLimit(processed));
     }
