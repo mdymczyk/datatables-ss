@@ -4,14 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import pl.pplcanfly.datatables.params.RequestParams;
-import pl.pplcanfly.datatables.params.ResponseParams;
 
 public class DataTablesRequest {
 
     private RequestParams params;
-    private ServerSideDataTable dataTable;
     private Sorter sorter;
     private Filter filter;
+    private Formatter formatter;
 
     public DataTablesRequest(Map<String, String[]> params, ServerSideDataTable dataTable) {
         this(new RequestParams(params), dataTable);
@@ -19,9 +18,9 @@ public class DataTablesRequest {
 
     DataTablesRequest(RequestParams params, ServerSideDataTable dataTable) {
         this.params = params;
-        this.dataTable = dataTable;
         this.sorter = new DefaultSorter(dataTable, params);
         this.filter = new DefaultFilter(dataTable, params);
+        this.formatter = new JsonFormatter(dataTable, params);
     }
 
     public DataTablesResponse process(List<?> rows) {
@@ -35,9 +34,11 @@ public class DataTablesRequest {
             processed = sorter.sort(processed);
         }
 
-        return new DataTablesResponse(params,
-                new ResponseParams(params.getEcho(), rows.size(), processed.size()), dataTable,
-                offsetAndLimit(processed));
+        List<?> limited = offsetAndLimit(processed);
+
+        String json = formatter.format(limited, rows.size(), processed.size());
+
+        return new DataTablesResponse(limited, json);
     }
 
     private List<?> offsetAndLimit(List<?> processedRows) {
@@ -51,6 +52,10 @@ public class DataTablesRequest {
 
     void setFilter(Filter filter) {
         this.filter = filter;
+    }
+
+    void setFormatter(Formatter formatter) {
+        this.formatter = formatter;
     }
 
 }

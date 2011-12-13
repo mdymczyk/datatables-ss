@@ -10,7 +10,6 @@ import java.util.List;
 import org.junit.Test;
 
 import pl.pplcanfly.datatables.params.RequestParams;
-import pl.pplcanfly.datatables.params.ResponseParams;
 import pl.pplcanfly.datatables.types.Types;
 
 public class JsonFormatterTest {
@@ -20,24 +19,27 @@ public class JsonFormatterTest {
         // given
         RequestParams requestParams = mock(RequestParams.class);
         stub(requestParams.getColumns()).toReturn(Arrays.asList("foo", "bar"));
-
-        ResponseParams responseParams = new ResponseParams(3, 20, 2);
+        stub(requestParams.getEcho()).toReturn(3);
 
         ServerSideDataTable dataTable = ServerSideDataTable.build() // column in different order than in request params
                 .column(Types.numeric(), "bar")
                 .column(Types.text(), "foo")
                 .done();
 
-        List<Something> rows = Arrays.asList(new Something("abc", 123), new Something("def", 987));
+        List<Something> rowsToShow = Arrays.asList(new Something("abc", 123), new Something("def", 987));
 
+        int totalRows = 20;
+        int displayRows = 10;
+
+        JsonFormatter formatter = new JsonFormatter(dataTable, requestParams);
 
         // when
-        String json = new JsonFormatter().format(requestParams, responseParams, dataTable, rows);
+        String json = formatter.format(rowsToShow, totalRows, displayRows);
 
         // then
         assertThat(json).isEqualTo("{\"sEcho\":3," +
                 "\"iTotalRecords\":20," +
-                "\"iTotalDisplayRecords\":2," +
+                "\"iTotalDisplayRecords\":10," +
                 "\"aaData\":[[\"abc\",123],[\"def\",987]]}");
     }
 
