@@ -12,12 +12,15 @@ import pl.pplcanfly.datatables.utils.TestUtils;
 
 public class DefaultSorterTest {
 
+    private Column fooColumn = new Column(Types.text(), "foo");
+    private Column barColumn = new Column(Types.numeric(), "bar");
+
     @Test
     public void should_not_change_order_of_input_rows() {
         // given
         List<Something> rows = TestUtils.load("1");
 
-        DefaultSorter sorter = new DefaultSorter(Arrays.asList(new Column(Types.text(), "foo")), Arrays.asList(SortOrder.ASC));
+        DefaultSorter sorter = new DefaultSorter(Arrays.asList(fooColumn), Arrays.asList(SortOrder.ASC));
 
         // when
         sorter.sort(rows);
@@ -31,7 +34,7 @@ public class DefaultSorterTest {
         // given
         List<Something> rows = TestUtils.load("1");
 
-        DefaultSorter sorter = new DefaultSorter(Arrays.asList(new Column(Types.text(), "foo")), Arrays.asList(SortOrder.ASC));
+        DefaultSorter sorter = new DefaultSorter(Arrays.asList(fooColumn), Arrays.asList(SortOrder.ASC));
 
         // when
         List<?> processedRows = sorter.sort(rows);
@@ -45,7 +48,7 @@ public class DefaultSorterTest {
         // given
         List<Something> rows = TestUtils.load("1");
 
-        DefaultSorter sorter = new DefaultSorter(Arrays.asList(new Column(Types.text(), "foo")), Arrays.asList(SortOrder.DESC));
+        DefaultSorter sorter = new DefaultSorter(Arrays.asList(fooColumn), Arrays.asList(SortOrder.DESC));
 
         // when
         List<?> processedRows = sorter.sort(rows);
@@ -59,7 +62,7 @@ public class DefaultSorterTest {
         // given
         List<Something> rows = TestUtils.load("2");
 
-        DefaultSorter sorter = new DefaultSorter(Arrays.asList(new Column(Types.text(), "foo")), Arrays.asList(SortOrder.ASC));
+        DefaultSorter sorter = new DefaultSorter(Arrays.asList(fooColumn), Arrays.asList(SortOrder.ASC));
 
         // when
         List<?> processedRows = sorter.sort(rows);
@@ -73,8 +76,8 @@ public class DefaultSorterTest {
         // given
         List<Something> rows = TestUtils.load("2");
 
-        DefaultSorter sorter = new DefaultSorter(Arrays.asList(new Column(Types.text(), "foo"),
-                new Column(Types.numeric(), "bar")), Arrays.asList(SortOrder.ASC, SortOrder.ASC));
+        DefaultSorter sorter = new DefaultSorter(Arrays.asList(fooColumn, barColumn),
+                Arrays.asList(SortOrder.ASC, SortOrder.ASC));
 
         // when
         List<?> processedRows = sorter.sort(rows);
@@ -88,8 +91,8 @@ public class DefaultSorterTest {
         // given
         List<Something> rows = TestUtils.load("2");
 
-        DefaultSorter sorter = new DefaultSorter(Arrays.asList(new Column(Types.text(), "foo"),
-                new Column(Types.numeric(), "bar")), Arrays.asList(SortOrder.ASC, SortOrder.DESC));
+        DefaultSorter sorter = new DefaultSorter(Arrays.asList(fooColumn, barColumn),
+                Arrays.asList(SortOrder.ASC, SortOrder.DESC));
 
         // when
         List<?> processedRows = sorter.sort(rows);
@@ -101,8 +104,8 @@ public class DefaultSorterTest {
     @Test
     public void should_accept_custom_value_accessor() {
         // given
-        DefaultSorter sorter = new DefaultSorter(Arrays.asList(new Column(Types.text(), "foo", new ReversingValueAccessor())),
-                Arrays.asList(SortOrder.ASC));
+        DefaultSorter sorter = new DefaultSorter(Arrays.asList(new Column(Types.text(), "foo",
+                new ReversingValueAccessor())), Arrays.asList(SortOrder.ASC));
 
         List<Something> rows = TestUtils.load("3");
 
