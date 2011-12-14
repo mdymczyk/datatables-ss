@@ -7,12 +7,12 @@ import java.util.List;
 
 class DefaultSorter implements Sorter {
 
-    private ServerSideDataTable dataTable;
-    private RequestParams params;
+    private List<Column> columns;
+    private List<SortOrder> sortOrders;
 
-    public DefaultSorter(ServerSideDataTable dataTable, RequestParams params) {
-        this.dataTable = dataTable;
-        this.params = params;
+    public DefaultSorter(List<Column> columns, List<SortOrder> sortOrders) {
+        this.columns = columns;
+        this.sortOrders = sortOrders;
     }
 
     @Override
@@ -27,12 +27,10 @@ class DefaultSorter implements Sorter {
 
     private RowComparator makeComparator() {
         RowComparator comparator = null;
-        for (int i = 0; i < params.getSortingColsCount(); i++) {
-            String sortColumnName = params.getSortCols().get(i);
-            Column column = dataTable.findColumn(sortColumnName);
+        for (int i = 0; i < columns.size(); i++) {
+            Column column = columns.get(i);
 
-            RowComparator newComparator = new RowComparator(column,
-                    SortOrder.valueOf(params.getSortDirs().get(i).toUpperCase()));
+            RowComparator newComparator = new RowComparator(column, sortOrders.get(i));
 
             if (comparator == null) {
                 comparator = newComparator;

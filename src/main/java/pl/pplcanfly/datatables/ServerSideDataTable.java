@@ -18,6 +18,14 @@ public class ServerSideDataTable {
         return new Builder();
     }
 
+    public List<Column> getColumnsByName(List<String> columnNames) {
+        List<Column> result = new ArrayList<Column>();
+        for (String name : columnNames) {
+            result.add(findColumn(name));
+        }
+        return result;
+    }
+
     List<Column> getColumns() {
         return columns;
     }

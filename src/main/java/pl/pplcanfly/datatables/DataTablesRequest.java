@@ -17,7 +17,10 @@ public class DataTablesRequest {
 
     DataTablesRequest(RequestParams params, ServerSideDataTable dataTable) {
         this.params = params;
-        this.sorter = new DefaultSorter(dataTable, params);
+
+        this.sorter = new DefaultSorter(dataTable.getColumnsByName(params.getSortCols()),
+                SortOrder.toEnumList(params.getSortDirs()));
+
         this.filter = new DefaultFilter(dataTable, params);
         this.formatter = new JsonFormatter(dataTable, params);
     }
