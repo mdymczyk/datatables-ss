@@ -8,11 +8,11 @@ import net.sf.json.JSONObject;
 
 class JsonFormatter implements Formatter {
 
-    private ServerSideDataTable dataTable;
+    private List<Column> columns;
     private RequestParams params;
 
-    public JsonFormatter(ServerSideDataTable dataTable, RequestParams params) {
-        this.dataTable = dataTable;
+    public JsonFormatter(List<Column> columns, RequestParams params) {
+        this.columns = columns;
         this.params = params;
     }
 
@@ -25,8 +25,7 @@ class JsonFormatter implements Formatter {
         JSONArray jsonArray = new JSONArray();
         for (Object row : rows) {
             List<Object> values = new ArrayList<Object>();
-            for(String columnName : params.getColumns()) {
-                Column column = dataTable.findColumn(columnName);
+            for(Column column : columns) {
                 values.add(column.getValueFrom(row));
             }
             jsonArray.element(values);

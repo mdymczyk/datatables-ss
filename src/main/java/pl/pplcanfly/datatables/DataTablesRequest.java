@@ -23,7 +23,7 @@ public class DataTablesRequest {
 
         this.filter = new DefaultFilter(dataTable.getColumnsByName(params.getSearchableCols()), params.getSearch());
 
-        this.formatter = new JsonFormatter(dataTable, params);
+        this.formatter = new JsonFormatter(dataTable.getColumnsByName(params.getColumns()), params);
     }
 
     public DataTablesResponse process(List<?> rows) {

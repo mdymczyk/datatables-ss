@@ -17,20 +17,15 @@ public class JsonFormatterTest {
     public void should_transform_to_json_with_column_order_determied_by_request_params() {
         // given
         RequestParams requestParams = mock(RequestParams.class);
-        stub(requestParams.getColumns()).toReturn(Arrays.asList("foo", "bar"));
         stub(requestParams.getEcho()).toReturn(3);
-
-        ServerSideDataTable dataTable = ServerSideDataTable.build() // column in different order than in request params
-                .column(Types.numeric(), "bar")
-                .column(Types.text(), "foo")
-                .done();
 
         List<Something> rowsToShow = Arrays.asList(new Something("abc", 123), new Something("def", 987));
 
         int totalRows = 20;
         int displayRows = 10;
 
-        JsonFormatter formatter = new JsonFormatter(dataTable, requestParams);
+        JsonFormatter formatter = new JsonFormatter(Arrays.asList(new Column(Types.text(), "foo"),
+                new Column(Types.numeric(), "bar")), requestParams);
 
         // when
         String json = formatter.format(rowsToShow, totalRows, displayRows);
