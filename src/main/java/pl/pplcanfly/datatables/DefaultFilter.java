@@ -7,19 +7,18 @@ import java.util.regex.Pattern;
 
 class DefaultFilter implements Filter {
 
-    private ServerSideDataTable dataTable;
-    private RequestParams params;
+    private List<Column> columns;
+    private String search;
 
-    public DefaultFilter(ServerSideDataTable dataTable, RequestParams params) {
-        this.dataTable = dataTable;
-        this.params = params;
+    public DefaultFilter(List<Column> columns, String search) {
+        this.search = search;
+        this.columns = columns;
     }
 
     @Override
     public List<?> filter(List<?> rows) {
         List<Object> filteredRows = new ArrayList<Object>();
         List<Pattern> patterns = precompile();
-        List<Column> columns = findColumns();
 
         for (Object row : rows) {
             boolean allPatternsWereMatched = true;
@@ -51,18 +50,7 @@ class DefaultFilter implements Filter {
         return filteredRows;
     }
 
-    private List<Column> findColumns() {
-        List<String> searchableCols = params.getSearchableCols();
-        List<Column> columns = new ArrayList<Column>();
-        for (String columnName : searchableCols) {
-            columns.add(dataTable.findColumn(columnName));
-        }
-        return columns;
-    }
-
     private List<Pattern> precompile() {
-        String search = params.getSearch();
-
         List<Pattern> patterns = new ArrayList<Pattern>();
         String[] splitted = search.split(" ");
         for (String s : splitted) {

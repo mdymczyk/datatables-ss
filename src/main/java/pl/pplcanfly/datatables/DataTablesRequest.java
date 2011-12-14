@@ -21,7 +21,8 @@ public class DataTablesRequest {
         this.sorter = new DefaultSorter(dataTable.getColumnsByName(params.getSortCols()),
                 SortOrder.toEnumList(params.getSortDirs()));
 
-        this.filter = new DefaultFilter(dataTable, params);
+        this.filter = new DefaultFilter(dataTable.getColumnsByName(params.getSearchableCols()), params.getSearch());
+
         this.formatter = new JsonFormatter(dataTable, params);
     }
 
