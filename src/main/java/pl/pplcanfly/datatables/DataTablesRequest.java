@@ -24,20 +24,15 @@ public class DataTablesRequest {
         this.filter = new DefaultFilter(dataTable.getColumnsByName(params.getSearchableCols()),
                 params.getSearch());
 
-        this.formatter = new JsonFormatter(dataTable.getColumnsByName(params.getColumns(), params.getDisplayStart()),
+        this.formatter = new JsonFormatter(dataTable.getColumnsByName(params.getColumns(), params.getDisplayStart() + 1),
                 params);
     }
 
     public DataTablesResponse process(List<?> rows) {
         List<?> processed = rows;
 
-        if (params.hasSearchParams()) {
-            processed = filter.filter(processed);
-        }
-
-        if (params.hasSortingParams()) {
-            processed = sorter.sort(processed);
-        }
+        processed = filter.filter(processed);
+        processed = sorter.sort(processed);
 
         List<?> limited = offsetAndLimit(processed);
 

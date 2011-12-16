@@ -17,6 +17,10 @@ class DefaultSorter implements Sorter {
 
     @Override
     public List<?> sort(List<?> rows) {
+        if (columns.isEmpty()) {
+            return rows;
+        }
+
         RowComparator comparator = makeComparator();
         List<Object> processedRows = new ArrayList<Object>(rows);
 

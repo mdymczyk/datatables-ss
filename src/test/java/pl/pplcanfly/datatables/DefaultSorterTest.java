@@ -3,6 +3,7 @@ package pl.pplcanfly.datatables;
 import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -14,6 +15,21 @@ public class DefaultSorterTest {
 
     private Column fooColumn = new Column(Types.text(), "foo");
     private Column barColumn = new Column(Types.numeric(), "bar");
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void should_do_nothing_if_there_are_no_sortable_columns() {
+        // given
+        DefaultSorter sorter = new DefaultSorter(Collections.EMPTY_LIST, Collections.EMPTY_LIST);
+
+        List<Something> rows = TestUtils.load("4");
+
+        // when
+        List<?> processed = sorter.sort(rows);
+
+        // then
+        assertThat(processed).isSameAs(rows);
+    }
 
     @Test
     public void should_not_change_order_of_input_rows() {

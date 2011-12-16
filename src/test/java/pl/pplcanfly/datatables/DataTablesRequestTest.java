@@ -57,8 +57,6 @@ public class DataTablesRequestTest {
     public void should_filter_first_and_then_sort() {
         // given
         stub(params.getEcho()).toReturn(3);
-        stub(params.hasSearchParams()).toReturn(true);
-        stub(params.hasSortingParams()).toReturn(true);
 
         List<Something> rows = new ArrayList<Something>();
         List filtered = new ArrayList<Something>();
@@ -78,45 +76,10 @@ public class DataTablesRequestTest {
     }
 
     @Test
-    @SuppressWarnings({ "rawtypes" })
-    public void should_skip_filtering_if_theres_no_search_string() {
-        // given
-        stub(params.hasSearchParams()).toReturn(false);
-        stub(params.hasSortingParams()).toReturn(true);
-
-        List<Something> rows = new ArrayList<Something>();
-        List filtered = new ArrayList<Something>();
-
-        // when
-        request.process(rows);
-
-        // then
-        verifyZeroInteractions(filter);
-        verify(sorter).sort(filtered);
-    }
-
-    @Test
-    public void should_skip_sorting_if_theres_are_no_sort_criteria() {
-        // given
-        stub(params.hasSearchParams()).toReturn(true);
-        stub(params.hasSortingParams()).toReturn(false);
-
-        List<Something> rows = new ArrayList<Something>();
-
-        // when
-        request.process(rows);
-
-        // then
-        verify(filter).filter(rows);
-        verifyZeroInteractions(sorter);
-    }
-
-    @Test
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public void should_return_response_after_processing() {
         // given
         stub(params.getEcho()).toReturn(3);
-        stub(params.hasSearchParams()).toReturn(true);
 
         stub(params.getDisplayStart()).toReturn(0);
         stub(params.getDisplayLength()).toReturn(1);
@@ -145,8 +108,6 @@ public class DataTablesRequestTest {
         // given
         stub(params.getDisplayStart()).toReturn(1);
         stub(params.getDisplayLength()).toReturn(2);
-
-        stub(params.hasSearchParams()).toReturn(true);
 
         List<Something> rows = TestUtils.load("1");
         List processed = TestUtils.load("1_foo_asc");

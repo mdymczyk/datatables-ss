@@ -17,6 +17,10 @@ class DefaultFilter implements Filter {
 
     @Override
     public List<?> filter(List<?> rows) {
+        if (columns.isEmpty()) {
+            return rows;
+        }
+
         List<Object> filteredRows = new ArrayList<Object>();
         List<Pattern> patterns = precompile();
 
