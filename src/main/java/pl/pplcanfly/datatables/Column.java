@@ -9,14 +9,17 @@ class Column {
     private String name;
     private ValueAccessor valueAccessor;
 
+    public Column(String name) {
+        this(null, name, null);
+    }
+
     public Column(Type type, String name) {
-        this.type = type;
-        this.name = name;
-        this.valueAccessor = new ReflectionValueAccessor(name);
+        this(type, name, new ReflectionValueAccessor(name));
     }
 
     public Column(Type type, String name, ValueAccessor valueAccessor) {
-        this(type, name);
+        this.type = type;
+        this.name = name;
         this.valueAccessor = valueAccessor;
     }
 

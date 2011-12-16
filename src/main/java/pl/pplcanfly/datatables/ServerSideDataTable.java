@@ -11,6 +11,7 @@ import pl.pplcanfly.datatables.types.Type;
 public class ServerSideDataTable {
 
     private List<Column> columns = new ArrayList<Column>();
+    private String idColumnName;
 
     private ServerSideDataTable() { }
 
@@ -21,9 +22,27 @@ public class ServerSideDataTable {
     public List<Column> getColumnsByName(List<String> columnNames) {
         List<Column> result = new ArrayList<Column>();
         for (String name : columnNames) {
-            result.add(findColumn(name));
+            if (!name.equals(idColumnName)) {
+                result.add(findColumn(name));
+            }
         }
         return result;
+    }
+
+    public List<Column> getColumnsByName(List<String> columnNames, long displayStart) {
+        List<Column> result = new ArrayList<Column>();
+        for (String name : columnNames) {
+            if (name.equals(idColumnName)) {
+                result.add(new IdColumn(idColumnName, displayStart));
+            } else {
+                result.add(findColumn(name));
+            }
+        }
+        return result;
+    }
+
+    void setIdColumnName(String name) {
+        this.idColumnName = name;
     }
 
     List<Column> getColumns() {
@@ -62,6 +81,11 @@ public class ServerSideDataTable {
 
         public Builder column(Type type, String name, ValueAccessor valueAccessor) {
             dataTable.getColumns().add(new Column(type, name, valueAccessor));
+            return this;
+        }
+
+        public Builder idColumn(String name) {
+            dataTable.setIdColumnName(name);
             return this;
         }
 

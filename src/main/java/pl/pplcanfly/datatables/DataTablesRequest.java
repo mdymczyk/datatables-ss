@@ -21,9 +21,11 @@ public class DataTablesRequest {
         this.sorter = new DefaultSorter(dataTable.getColumnsByName(params.getSortCols()),
                 SortOrder.toEnumList(params.getSortDirs()));
 
-        this.filter = new DefaultFilter(dataTable.getColumnsByName(params.getSearchableCols()), params.getSearch());
+        this.filter = new DefaultFilter(dataTable.getColumnsByName(params.getSearchableCols()),
+                params.getSearch());
 
-        this.formatter = new JsonFormatter(dataTable.getColumnsByName(params.getColumns()), params);
+        this.formatter = new JsonFormatter(dataTable.getColumnsByName(params.getColumns(), params.getDisplayStart()),
+                params);
     }
 
     public DataTablesResponse process(List<?> rows) {
