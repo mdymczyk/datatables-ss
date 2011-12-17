@@ -18,13 +18,13 @@ public class DataTablesRequest {
     DataTablesRequest(RequestParams params, ServerSideDataTable dataTable) {
         this.params = params;
 
-        this.sorter = new DefaultSorter(dataTable.getColumnsByName(params.getSortCols()),
+        this.sorter = new DefaultSorter(dataTable.getColumns(params.getSortCols()),
                 SortOrder.toEnumList(params.getSortDirs()));
 
-        this.filter = new DefaultFilter(dataTable.getColumnsByName(params.getSearchableCols()),
+        this.filter = new DefaultFilter(dataTable.getColumns(params.getSearchableCols()),
                 params.getSearch());
 
-        this.formatter = new JsonFormatter(dataTable.getColumnsByName(params.getColumns(), params.getDisplayStart() + 1),
+        this.formatter = new JsonFormatter(dataTable.getColumns(params.getColumns(), params.getDisplayStart() + 1),
                 params);
     }
 

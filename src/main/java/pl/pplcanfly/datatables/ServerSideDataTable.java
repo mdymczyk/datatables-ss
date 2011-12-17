@@ -19,7 +19,7 @@ public class ServerSideDataTable {
         return new Builder();
     }
 
-    List<Column> getColumnsByName(List<String> columnNames) {
+    List<Column> getColumns(List<String> columnNames) {
         List<Column> result = new ArrayList<Column>();
         for (String name : columnNames) {
             if (!name.equals(idColumnName)) {
@@ -29,7 +29,7 @@ public class ServerSideDataTable {
         return result;
     }
 
-    List<Column> getColumnsByName(List<String> columnNames, long displayStart) {
+    List<Column> getColumns(List<String> columnNames, long displayStart) {
         List<Column> result = new ArrayList<Column>();
         for (String name : columnNames) {
             if (name.equals(idColumnName)) {

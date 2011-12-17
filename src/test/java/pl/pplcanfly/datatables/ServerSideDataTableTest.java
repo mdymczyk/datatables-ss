@@ -48,7 +48,7 @@ public class ServerSideDataTableTest {
                 .done();
 
         // when
-        List<Column> columnsByName = dataTable.getColumnsByName(Arrays.asList("col2", "col3", "col1"));
+        List<Column> columnsByName = dataTable.getColumns(Arrays.asList("col2", "col3", "col1"));
 
         // when
         assertThat(columnsByName.get(0).getName()).isEqualTo("col2");
@@ -63,7 +63,7 @@ public class ServerSideDataTableTest {
                 .done();
 
         // when
-        List<Column> columnsByName = dataTable.getColumnsByName(Arrays.asList("id"), 0);
+        List<Column> columnsByName = dataTable.getColumns(Arrays.asList("id"), 0);
 
         // when
         Column idColumn = columnsByName.get(0);
@@ -80,7 +80,7 @@ public class ServerSideDataTableTest {
                 .done();
 
         // when
-        List<Column> columnsByName = dataTable.getColumnsByName(Arrays.asList("id", "col1"), 10);
+        List<Column> columnsByName = dataTable.getColumns(Arrays.asList("id", "col1"), 10);
 
         // when
         assertThat(columnsByName.get(0).getName()).isEqualTo("id");
@@ -104,7 +104,7 @@ public class ServerSideDataTableTest {
         thrown.expectMessage("idontexist, defined columns = [col1, col2]");
 
         // when
-        dataTable.getColumnsByName(Arrays.asList("idontexist"));
+        dataTable.getColumns(Arrays.asList("idontexist"));
     }
 
 }
