@@ -104,7 +104,7 @@ public class ServerSideDataTableTest {
         thrown.expectMessage("idontexist, defined columns = [col1, col2]");
 
         // when
-        dataTable.findColumn("idontexist");
+        dataTable.getColumnsByName(Arrays.asList("idontexist"));
     }
 
 }
