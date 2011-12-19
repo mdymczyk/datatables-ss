@@ -5,7 +5,7 @@ class IdColumn extends Column {
     private long displayStart;
 
     public IdColumn(String name, long displayStart) {
-        super(name);
+        super(/* no type needed */ null, name);
         this.displayStart = displayStart;
     }
 

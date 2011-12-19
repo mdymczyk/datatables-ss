@@ -9,10 +9,6 @@ class Column {
     private String name;
     private ValueAccessor valueAccessor;
 
-    public Column(String name) {
-        this(null, name, null);
-    }
-
     public Column(Type type, String name) {
         this(type, name, new ReflectionValueAccessor(name));
     }
