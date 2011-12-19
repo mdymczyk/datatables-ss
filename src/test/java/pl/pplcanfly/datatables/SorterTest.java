@@ -11,7 +11,7 @@ import org.junit.Test;
 import pl.pplcanfly.datatables.types.Types;
 import pl.pplcanfly.datatables.utils.TestUtils;
 
-public class DefaultSorterTest {
+public class SorterTest {
 
     private Column fooColumn = new Column(Types.text(), "foo");
     private Column barColumn = new Column(Types.numeric(), "bar");
@@ -20,12 +20,12 @@ public class DefaultSorterTest {
     @SuppressWarnings("unchecked")
     public void should_do_nothing_if_there_are_no_sortable_columns() {
         // given
-        DefaultSorter sorter = new DefaultSorter(Collections.EMPTY_LIST, Collections.EMPTY_LIST);
+        Sorter sorter = new Sorter(Collections.EMPTY_LIST, Collections.EMPTY_LIST);
 
         List<Something> rows = TestUtils.load("4");
 
         // when
-        List<?> processed = sorter.sort(rows);
+        List<?> processed = sorter.process(rows);
 
         // then
         assertThat(processed).isSameAs(rows);
@@ -36,10 +36,10 @@ public class DefaultSorterTest {
         // given
         List<Something> rows = TestUtils.load("1");
 
-        DefaultSorter sorter = new DefaultSorter(Arrays.asList(fooColumn), Arrays.asList(SortOrder.ASC));
+        Sorter sorter = new Sorter(Arrays.asList(fooColumn), Arrays.asList(SortOrder.ASC));
 
         // when
-        sorter.sort(rows);
+        sorter.process(rows);
 
         // then
         assertThat(rows).isEqualTo(TestUtils.load("1"));
@@ -50,10 +50,10 @@ public class DefaultSorterTest {
         // given
         List<Something> rows = TestUtils.load("1");
 
-        DefaultSorter sorter = new DefaultSorter(Arrays.asList(fooColumn), Arrays.asList(SortOrder.ASC));
+        Sorter sorter = new Sorter(Arrays.asList(fooColumn), Arrays.asList(SortOrder.ASC));
 
         // when
-        List<?> processedRows = sorter.sort(rows);
+        List<?> processedRows = sorter.process(rows);
 
         // then
         assertThat(processedRows).isEqualTo(TestUtils.load("1_foo_asc"));
@@ -64,10 +64,10 @@ public class DefaultSorterTest {
         // given
         List<Something> rows = TestUtils.load("1");
 
-        DefaultSorter sorter = new DefaultSorter(Arrays.asList(fooColumn), Arrays.asList(SortOrder.DESC));
+        Sorter sorter = new Sorter(Arrays.asList(fooColumn), Arrays.asList(SortOrder.DESC));
 
         // when
-        List<?> processedRows = sorter.sort(rows);
+        List<?> processedRows = sorter.process(rows);
 
         // then
         assertThat(processedRows).isEqualTo(TestUtils.load("1_foo_desc"));
@@ -78,10 +78,10 @@ public class DefaultSorterTest {
         // given
         List<Something> rows = TestUtils.load("2");
 
-        DefaultSorter sorter = new DefaultSorter(Arrays.asList(fooColumn), Arrays.asList(SortOrder.ASC));
+        Sorter sorter = new Sorter(Arrays.asList(fooColumn), Arrays.asList(SortOrder.ASC));
 
         // when
-        List<?> processedRows = sorter.sort(rows);
+        List<?> processedRows = sorter.process(rows);
 
         // then
         assertThat(processedRows).isEqualTo(TestUtils.load("2_foo_asc"));
@@ -92,11 +92,11 @@ public class DefaultSorterTest {
         // given
         List<Something> rows = TestUtils.load("2");
 
-        DefaultSorter sorter = new DefaultSorter(Arrays.asList(fooColumn, barColumn),
+        Sorter sorter = new Sorter(Arrays.asList(fooColumn, barColumn),
                 Arrays.asList(SortOrder.ASC, SortOrder.ASC));
 
         // when
-        List<?> processedRows = sorter.sort(rows);
+        List<?> processedRows = sorter.process(rows);
 
         // then
         assertThat(processedRows).isEqualTo(TestUtils.load("2_foo_asc_bar_asc"));
@@ -107,11 +107,11 @@ public class DefaultSorterTest {
         // given
         List<Something> rows = TestUtils.load("2");
 
-        DefaultSorter sorter = new DefaultSorter(Arrays.asList(fooColumn, barColumn),
+        Sorter sorter = new Sorter(Arrays.asList(fooColumn, barColumn),
                 Arrays.asList(SortOrder.ASC, SortOrder.DESC));
 
         // when
-        List<?> processedRows = sorter.sort(rows);
+        List<?> processedRows = sorter.process(rows);
 
         // then
         assertThat(processedRows).isEqualTo(TestUtils.load("2_foo_asc_bar_desc"));
@@ -120,13 +120,13 @@ public class DefaultSorterTest {
     @Test
     public void should_accept_custom_value_accessor() {
         // given
-        DefaultSorter sorter = new DefaultSorter(Arrays.asList(new Column(Types.text(), "foo",
+        Sorter sorter = new Sorter(Arrays.asList(new Column(Types.text(), "foo",
                 new ReversingValueAccessor())), Arrays.asList(SortOrder.ASC));
 
         List<Something> rows = TestUtils.load("3");
 
         // when
-        List<?> processedRows = sorter.sort(rows);
+        List<?> processedRows = sorter.process(rows);
 
         // then
         assertThat(processedRows).isEqualTo(TestUtils.load("3_foo_asc_revacc"));

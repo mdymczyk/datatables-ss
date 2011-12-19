@@ -5,18 +5,18 @@ import java.util.Collections;
 import java.util.List;
 
 
-class DefaultSorter implements Sorter {
+class Sorter implements RowsProcessor {
 
     private List<Column> columns;
     private List<SortOrder> sortOrders;
 
-    public DefaultSorter(List<Column> columns, List<SortOrder> sortOrders) {
+    public Sorter(List<Column> columns, List<SortOrder> sortOrders) {
         this.columns = columns;
         this.sortOrders = sortOrders;
     }
 
     @Override
-    public List<?> sort(List<?> rows) {
+    public List<?> process(List<?> rows) {
         if (columns.isEmpty()) {
             return rows;
         }

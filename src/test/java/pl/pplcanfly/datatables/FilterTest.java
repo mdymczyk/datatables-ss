@@ -11,7 +11,7 @@ import org.junit.Test;
 import pl.pplcanfly.datatables.types.Types;
 import pl.pplcanfly.datatables.utils.TestUtils;
 
-public class DefaultFilterTest {
+public class FilterTest {
     private Column fooColumn = new Column(Types.text(), "foo");
     private Column barColumn = new Column(Types.numeric(), "bar");
 
@@ -19,12 +19,12 @@ public class DefaultFilterTest {
     @SuppressWarnings("unchecked")
     public void should_do_nothing_if_there_are_no_searchable_columns() {
         // given
-        DefaultFilter filter = new DefaultFilter(Collections.EMPTY_LIST, "a");
+        Filter filter = new Filter(Collections.EMPTY_LIST, "a");
 
         List<Something> rows = TestUtils.load("4");
 
         // when
-        List<?> processed = filter.filter(rows);
+        List<?> processed = filter.process(rows);
 
         // then
         assertThat(processed).isSameAs(rows);
@@ -35,10 +35,10 @@ public class DefaultFilterTest {
         // given
         List<Something> rows = TestUtils.load("4");
 
-        DefaultFilter filter = new DefaultFilter(Arrays.asList(fooColumn), "aa");
+        Filter filter = new Filter(Arrays.asList(fooColumn), "aa");
 
         // when
-        filter.filter(rows);
+        filter.process(rows);
 
         // then
         assertThat(rows).hasSize(4);
@@ -49,10 +49,10 @@ public class DefaultFilterTest {
         // given
         List<Something> rows = TestUtils.load("4");
 
-        DefaultFilter filter = new DefaultFilter(Arrays.asList(fooColumn), "aa");
+        Filter filter = new Filter(Arrays.asList(fooColumn), "aa");
 
         // when
-        List<?> processedRows = filter.filter(rows);
+        List<?> processedRows = filter.process(rows);
 
         // then
         assertThat(processedRows).hasSize(2).onProperty("foo").containsExactly("aax", "aay");
@@ -63,10 +63,10 @@ public class DefaultFilterTest {
         // given
         List<Something> rows = TestUtils.load("5");
 
-        DefaultFilter filter = new DefaultFilter(Arrays.asList(fooColumn, barColumn), "22");
+        Filter filter = new Filter(Arrays.asList(fooColumn, barColumn), "22");
 
         // when
-        List<?> processedRows = filter.filter(rows);
+        List<?> processedRows = filter.process(rows);
 
         // then
         assertThat(processedRows).hasSize(2).onProperty("foo").containsExactly("11", "22");
@@ -77,10 +77,10 @@ public class DefaultFilterTest {
         // given
         List<Something> rows = TestUtils.load("5");
 
-        DefaultFilter filter = new DefaultFilter(Arrays.asList(fooColumn, barColumn), "55 44"); // even in reverse order
+        Filter filter = new Filter(Arrays.asList(fooColumn, barColumn), "55 44"); // even in reverse order
 
         // when
-        List<?> processedRows = filter.filter(rows);
+        List<?> processedRows = filter.process(rows);
 
         // then
         assertThat(processedRows).hasSize(1).onProperty("foo").containsExactly("44");
@@ -91,10 +91,10 @@ public class DefaultFilterTest {
         // given
         List<Something> rows = TestUtils.load("6");
 
-        DefaultFilter filter = new DefaultFilter(Arrays.asList(fooColumn, barColumn), "55 XX"); // 55 matches but XX does not
+        Filter filter = new Filter(Arrays.asList(fooColumn, barColumn), "55 XX"); // 55 matches but XX does not
 
         // when
-        List<?> processedRows = filter.filter(rows);
+        List<?> processedRows = filter.process(rows);
 
         // then
         assertThat(processedRows).hasSize(0);
@@ -105,10 +105,10 @@ public class DefaultFilterTest {
         // given
         List<Something> rows = TestUtils.load("6");
 
-        DefaultFilter filter = new DefaultFilter(Arrays.asList(fooColumn, barColumn), "aBcD");
+        Filter filter = new Filter(Arrays.asList(fooColumn, barColumn), "aBcD");
 
         // when
-        List<?> processedRows = filter.filter(rows);
+        List<?> processedRows = filter.process(rows);
 
         // then
         assertThat(processedRows).hasSize(3).onProperty("foo").containsExactly("AbcD", "aBCD", "ABcd");
@@ -120,10 +120,10 @@ public class DefaultFilterTest {
         List<Something> rows = TestUtils.load("6");
         rows.get(0).setFoo(null);
 
-        DefaultFilter filter = new DefaultFilter(Arrays.asList(fooColumn, barColumn), "aBcD");
+        Filter filter = new Filter(Arrays.asList(fooColumn, barColumn), "aBcD");
 
         // when
-        filter.filter(rows);
+        filter.process(rows);
 
         // then should not throw NullPointer
     }

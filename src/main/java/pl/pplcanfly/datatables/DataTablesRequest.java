@@ -7,8 +7,8 @@ import java.util.Map;
 public class DataTablesRequest {
 
     private RequestParams params;
-    private Sorter sorter;
-    private Filter filter;
+    private RowsProcessor sorter;
+    private RowsProcessor filter;
     private Formatter formatter;
 
     public DataTablesRequest(Map<String, String[]> params, ServerSideDataTable dataTable) {
@@ -18,10 +18,10 @@ public class DataTablesRequest {
     DataTablesRequest(RequestParams params, ServerSideDataTable dataTable) {
         this.params = params;
 
-        this.sorter = new DefaultSorter(dataTable.getColumns(params.getSortCols()),
+        this.sorter = new Sorter(dataTable.getColumns(params.getSortCols()),
                 SortOrder.toEnumList(params.getSortDirs()));
 
-        this.filter = new DefaultFilter(dataTable.getColumns(params.getSearchableCols()),
+        this.filter = new Filter(dataTable.getColumns(params.getSearchableCols()),
                 params.getSearch());
 
         this.formatter = new JsonFormatter(dataTable.getColumns(params.getColumns(), params.getDisplayStart() + 1),
@@ -31,8 +31,8 @@ public class DataTablesRequest {
     public DataTablesResponse process(List<?> rows) {
         List<?> processed = rows;
 
-        processed = filter.filter(processed);
-        processed = sorter.sort(processed);
+        processed = filter.process(processed);
+        processed = sorter.process(processed);
 
         List<?> limited = offsetAndLimit(processed);
 
@@ -46,11 +46,11 @@ public class DataTablesRequest {
                 Math.min(processedRows.size(), params.getDisplayStart() + params.getDisplayLength()));
     }
 
-    void setSorter(Sorter sorter) {
+    void setSorter(RowsProcessor sorter) {
         this.sorter = sorter;
     }
 
-    void setFilter(Filter filter) {
+    void setFilter(RowsProcessor filter) {
         this.filter = filter;
     }
 

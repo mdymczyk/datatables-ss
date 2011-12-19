@@ -8,7 +8,6 @@ import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.stub;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -27,8 +26,8 @@ public class DataTablesRequestTest {
     private ServerSideDataTable dataTable;
     private RequestParams params;
     private DataTablesRequest request;
-    private Sorter sorter;
-    private Filter filter;
+    private RowsProcessor sorter;
+    private RowsProcessor filter;
     private Formatter formatter;
 
     @Before
@@ -62,16 +61,16 @@ public class DataTablesRequestTest {
         List filtered = new ArrayList<Something>();
         List sorted = new ArrayList<Something>();
 
-        when(filter.filter(rows)).thenReturn(filtered);
-        when(sorter.sort(filtered)).thenReturn(sorted);
+        when(filter.process(rows)).thenReturn(filtered);
+        when(sorter.process(filtered)).thenReturn(sorted);
 
         // when
         request.process(rows);
 
         // then
         InOrder inOrder = inOrder(filter, sorter);
-        inOrder.verify(filter).filter(rows);
-        inOrder.verify(sorter).sort(filtered);
+        inOrder.verify(filter).process(rows);
+        inOrder.verify(sorter).process(filtered);
         inOrder.verifyNoMoreInteractions();
     }
 
@@ -88,8 +87,8 @@ public class DataTablesRequestTest {
 
         List processed = Arrays.asList(new Something("foo", 1), new Something("foo", 2));
 
-        when(filter.filter(rows)).thenReturn(processed);
-        when(sorter.sort(processed)).thenReturn(processed);
+        when(filter.process(rows)).thenReturn(processed);
+        when(sorter.process(processed)).thenReturn(processed);
         when(formatter.format(anyList(), anyInt(), anyInt())).thenReturn("json");
 
         // when
@@ -111,8 +110,8 @@ public class DataTablesRequestTest {
 
         List<Something> rows = TestUtils.load("1");
         List processed = TestUtils.load("1_foo_asc");
-        when(filter.filter(rows)).thenReturn(processed);
-        when(sorter.sort(processed)).thenReturn(processed);
+        when(filter.process(rows)).thenReturn(processed);
+        when(sorter.process(processed)).thenReturn(processed);
 
         // when
         DataTablesResponse response = request.process(rows);

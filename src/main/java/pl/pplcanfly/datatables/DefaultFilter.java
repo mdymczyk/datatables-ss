@@ -5,18 +5,18 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 
-class DefaultFilter implements Filter {
+class Filter implements RowsProcessor {
 
     private List<Column> columns;
     private String search;
 
-    public DefaultFilter(List<Column> columns, String search) {
+    public Filter(List<Column> columns, String search) {
         this.search = search;
         this.columns = columns;
     }
 
     @Override
-    public List<?> filter(List<?> rows) {
+    public List<?> process(List<?> rows) {
         if (columns.isEmpty()) {
             return rows;
         }
