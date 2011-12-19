@@ -16,16 +16,11 @@ public class DataTablesRequest {
     }
 
     DataTablesRequest(RequestParams params, ServerSideDataTable dataTable) {
-        this.sorter = new Sorter(dataTable.getColumns(params.getSortCols()),
-                SortOrder.toEnumList(params.getSortDirs()));
+        this.filter = Processors.filter(dataTable, params);
+        this.sorter = Processors.sorter(dataTable, params);
+        this.limiter = Processors.limiter(dataTable, params);
 
-        this.filter = new Filter(dataTable.getColumns(params.getSearchableCols()),
-                params.getSearch());
-
-        this.limiter = new Limiter(params.getDisplayStart(), params.getDisplayLength());
-
-        this.formatter = new JsonFormatter(dataTable.getColumns(params.getColumns(), params.getDisplayStart() + 1),
-                params);
+        this.formatter = new JsonFormatter(dataTable.getColumns(params.getColumns(), params.getDisplayStart() + 1), params);
     }
 
     public DataTablesResponse process(List<?> rows) {
