@@ -6,9 +6,9 @@ import java.util.Map;
 
 public class DataTablesRequest {
 
-    private RequestParams params;
     private RowsProcessor sorter;
     private RowsProcessor filter;
+    private RowsProcessor limiter;
     private Formatter formatter;
 
     public DataTablesRequest(Map<String, String[]> params, ServerSideDataTable dataTable) {
@@ -16,13 +16,13 @@ public class DataTablesRequest {
     }
 
     DataTablesRequest(RequestParams params, ServerSideDataTable dataTable) {
-        this.params = params;
-
         this.sorter = new Sorter(dataTable.getColumns(params.getSortCols()),
                 SortOrder.toEnumList(params.getSortDirs()));
 
         this.filter = new Filter(dataTable.getColumns(params.getSearchableCols()),
                 params.getSearch());
+
+        this.limiter = new Limiter(params.getDisplayStart(), params.getDisplayLength());
 
         this.formatter = new JsonFormatter(dataTable.getColumns(params.getColumns(), params.getDisplayStart() + 1),
                 params);
@@ -33,17 +33,11 @@ public class DataTablesRequest {
 
         processed = filter.process(processed);
         processed = sorter.process(processed);
+        processed = limiter.process(processed);
 
-        List<?> limited = offsetAndLimit(processed);
+        String json = formatter.format(processed, rows.size(), processed.size());
 
-        String json = formatter.format(limited, rows.size(), processed.size());
-
-        return new DataTablesResponse(limited, json);
-    }
-
-    private List<?> offsetAndLimit(List<?> processedRows) {
-        return processedRows.subList(params.getDisplayStart(),
-                Math.min(processedRows.size(), params.getDisplayStart() + params.getDisplayLength()));
+        return new DataTablesResponse(processed, json);
     }
 
     void setSorter(RowsProcessor sorter) {
@@ -52,6 +46,10 @@ public class DataTablesRequest {
 
     void setFilter(RowsProcessor filter) {
         this.filter = filter;
+    }
+
+    void setLimiter(RowsProcessor limiter) {
+        this.limiter = limiter;
     }
 
     void setFormatter(Formatter formatter) {

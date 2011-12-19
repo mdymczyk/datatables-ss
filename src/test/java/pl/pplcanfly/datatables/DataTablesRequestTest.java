@@ -28,6 +28,7 @@ public class DataTablesRequestTest {
     private DataTablesRequest request;
     private RowsProcessor sorter;
     private RowsProcessor filter;
+    private RowsProcessor limiter;
     private Formatter formatter;
 
     @Before
@@ -43,20 +44,21 @@ public class DataTablesRequestTest {
 
         sorter = mock(Sorter.class);
         filter = mock(Filter.class);
+        limiter = mock(Limiter.class);
         formatter = mock(Formatter.class);
 
         request = new DataTablesRequest(params, dataTable);
         request.setSorter(sorter);
         request.setFilter(filter);
+        request.setLimiter(limiter);
+
         request.setFormatter(formatter);
     }
 
     @Test
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void should_filter_first_and_then_sort() {
+    public void should_filter_first_and_then_sort_and_limit() {
         // given
-        stub(params.getEcho()).toReturn(3);
-
         List<Something> rows = new ArrayList<Something>();
         List filtered = new ArrayList<Something>();
         List sorted = new ArrayList<Something>();
@@ -68,9 +70,10 @@ public class DataTablesRequestTest {
         request.process(rows);
 
         // then
-        InOrder inOrder = inOrder(filter, sorter);
+        InOrder inOrder = inOrder(filter, sorter, limiter);
         inOrder.verify(filter).process(rows);
         inOrder.verify(sorter).process(filtered);
+        inOrder.verify(limiter).process(anyList());
         inOrder.verifyNoMoreInteractions();
     }
 
@@ -80,44 +83,24 @@ public class DataTablesRequestTest {
         // given
         stub(params.getEcho()).toReturn(3);
 
-        stub(params.getDisplayStart()).toReturn(0);
-        stub(params.getDisplayLength()).toReturn(1);
-
-        List<Something> rows = TestUtils.load("1");
+        List rows = TestUtils.load("1");
 
         List processed = Arrays.asList(new Something("foo", 1), new Something("foo", 2));
 
-        when(filter.process(rows)).thenReturn(processed);
-        when(sorter.process(processed)).thenReturn(processed);
+        when(filter.process(rows)).thenReturn(rows);
+        when(sorter.process(rows)).thenReturn(rows);
+        when(limiter.process(rows)).thenReturn(processed);
+
         when(formatter.format(anyList(), anyInt(), anyInt())).thenReturn("json");
 
         // when
         DataTablesResponse response = request.process(rows);
 
         // then
-        assertThat(response.getProcessedRows()).hasSize(1); // limited to display length
+        assertThat(response.getProcessedRows()).isSameAs(processed);
         assertThat(response.toJson()).isEqualTo("json");
 
-        verify(formatter).format(eq(Arrays.asList(processed.get(0))), eq(rows.size()), eq(2)); // limited to display length
-    }
-
-    @Test
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void should_offset_and_limit_processed_rows() {
-        // given
-        stub(params.getDisplayStart()).toReturn(1);
-        stub(params.getDisplayLength()).toReturn(2);
-
-        List<Something> rows = TestUtils.load("1");
-        List processed = TestUtils.load("1_foo_asc");
-        when(filter.process(rows)).thenReturn(processed);
-        when(sorter.process(processed)).thenReturn(processed);
-
-        // when
-        DataTablesResponse response = request.process(rows);
-
-        // then
-        assertThat(response.getProcessedRows()).hasSize(2).onProperty("foo").containsExactly("b", "c");
+        verify(formatter).format(eq(processed), eq(rows.size()), eq(2));
     }
 
 }
