@@ -86,10 +86,11 @@ public class DataTablesRequestTest {
         List rows = TestUtils.load("1");
 
         List processed = Arrays.asList(new Something("foo", 1), new Something("foo", 2));
+        List limited = Arrays.asList(processed.get(0));
 
         when(filter.process(rows)).thenReturn(rows);
-        when(sorter.process(rows)).thenReturn(rows);
-        when(limiter.process(rows)).thenReturn(processed);
+        when(sorter.process(rows)).thenReturn(processed);
+        when(limiter.process(processed)).thenReturn(limited);
 
         when(formatter.format(anyList(), anyInt(), anyInt())).thenReturn("json");
 
@@ -97,10 +98,10 @@ public class DataTablesRequestTest {
         DataTablesResponse response = request.process(rows);
 
         // then
-        assertThat(response.getProcessedRows()).isSameAs(processed);
+        assertThat(response.getProcessedRows()).isEqualTo(processed);
         assertThat(response.toJson()).isEqualTo("json");
 
-        verify(formatter).format(eq(processed), eq(rows.size()), eq(2));
+        verify(formatter).format(eq(limited), eq(rows.size()), eq(processed.size()));
     }
 
 }

@@ -33,9 +33,9 @@ public class DataTablesRequest {
 
         processed = filter.process(processed);
         processed = sorter.process(processed);
-        processed = limiter.process(processed);
+        List<?> limited = limiter.process(processed);
 
-        String json = formatter.format(processed, rows.size(), processed.size());
+        String json = formatter.format(limited, rows.size(), processed.size());
 
         return new DataTablesResponse(processed, json);
     }
