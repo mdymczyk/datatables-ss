@@ -1,6 +1,6 @@
 package pl.pplcanfly.datatables;
 
-public class IdColumn extends Column {
+class IdColumn extends Column {
 
     private long displayStart;
 
