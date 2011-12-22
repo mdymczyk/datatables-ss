@@ -58,7 +58,7 @@ class Filter implements RowsProcessor {
         List<Pattern> patterns = new ArrayList<Pattern>();
         String[] splitted = search.split(" ");
         for (String s : splitted) {
-            Pattern pattern = Pattern.compile(".*" + s.toLowerCase() + ".*", Pattern.CASE_INSENSITIVE);
+            Pattern pattern = Pattern.compile(".*" + Pattern.quote(s.toLowerCase()) + ".*", Pattern.CASE_INSENSITIVE);
             patterns.add(pattern);
         }
         return patterns;

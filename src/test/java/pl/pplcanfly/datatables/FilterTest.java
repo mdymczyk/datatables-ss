@@ -128,4 +128,18 @@ public class FilterTest {
         // then should not throw NullPointer
     }
 
+    @Test
+    public void should_escape_special_characters_when_filtering() {
+        // given
+        List<Something> rows = TestUtils.load("7");
+
+        Filter filter = new Filter(Arrays.asList(fooColumn), ".*?/");
+
+        // when
+        List<?> processedRows = filter.process(rows);
+
+        // then
+        assertThat(processedRows).hasSize(1).onProperty("foo").containsExactly("-.*?/#"); // only one should be filtered
+    }
+
 }
