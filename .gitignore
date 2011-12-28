@@ -1,6 +1,5 @@
-.gradle
-.settings
-.classpath
-.project
+.*
 build
 bin
+out
+datatables-ss.*
