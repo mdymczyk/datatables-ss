@@ -23,7 +23,6 @@ import pl.pplcanfly.datatables.utils.TestUtils;
 
 public class DataTablesRequestTest {
 
-    private ServerSideDataTable dataTable;
     private RequestParams params;
     private DataTablesRequest request;
     private RowsProcessor sorter;
@@ -33,7 +32,7 @@ public class DataTablesRequestTest {
 
     @Before
     public void setUp() {
-        dataTable = ServerSideDataTable.build()
+        ServerSideDataTable dataTable = ServerSideDataTable.build()
                 .column(Types.text(), "foo")
                 .column(Types.numeric(), "bar")
                 .done();
