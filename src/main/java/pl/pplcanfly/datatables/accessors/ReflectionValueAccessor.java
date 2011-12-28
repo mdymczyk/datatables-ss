@@ -34,7 +34,7 @@ public class ReflectionValueAccessor implements ValueAccessor {
         }
     }
 
-    private boolean tryToInitializeField(Class<? extends Object> klass) {
+    private boolean tryToInitializeField(Class<?> klass) {
         field = findField(klass.getDeclaredFields());
         if (field == null) {
             field = findField(klass.getFields());
@@ -45,7 +45,7 @@ public class ReflectionValueAccessor implements ValueAccessor {
         return field != null;
     }
 
-    private boolean tryToInitializeMethod(Class<? extends Object> klass) {
+    private boolean tryToInitializeMethod(Class<?> klass) {
         method = findMethod(klass.getDeclaredMethods());
         if (method == null) {
             method = findMethod(klass.getMethods());
