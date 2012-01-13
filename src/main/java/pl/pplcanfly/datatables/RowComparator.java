@@ -1,6 +1,7 @@
 package pl.pplcanfly.datatables;
 
 import java.util.Comparator;
+import java.util.List;
 
 class RowComparator implements Comparator<Object> {
 
@@ -14,16 +15,20 @@ class RowComparator implements Comparator<Object> {
         this.sortOrder = sortOrder;
     }
 
-    public void append(RowComparator rowComparator) {
-        if (hasNextAppended()) {
-            next.append(rowComparator);
-        } else {
-            next = rowComparator;
-        }
-    }
+    public static RowComparator multiColumn(List<Column> columns, List<SortOrder> sortOrders) {
+        RowComparator comparator = null;
+        for (int i = 0; i < columns.size(); i++) {
+            Column column = columns.get(i);
 
-    public RowComparator getNext() {
-        return next;
+            RowComparator newComparator = new RowComparator(column, sortOrders.get(i));
+
+            if (comparator == null) {
+                comparator = newComparator;
+            } else {
+                comparator.append(newComparator);
+            }
+        }
+        return comparator;
     }
 
     @Override
@@ -35,6 +40,18 @@ class RowComparator implements Comparator<Object> {
         }
 
         return sortOrder.applyTo(comparisonResult);
+    }
+
+    void append(RowComparator rowComparator) {
+        if (hasNextAppended()) {
+            next.append(rowComparator);
+        } else {
+            next = rowComparator;
+        }
+    }
+
+    RowComparator getNext() {
+        return next;
     }
 
     private boolean hasNextAppended() {

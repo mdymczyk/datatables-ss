@@ -21,28 +21,12 @@ class Sorter implements RowsProcessor {
             return rows;
         }
 
-        RowComparator comparator = makeComparator();
+        RowComparator comparator = RowComparator.multiColumn(columns, sortOrders);
         List<Object> processedRows = new ArrayList<Object>(rows);
 
         Collections.sort(processedRows, comparator);
 
         return processedRows;
-    }
-
-    private RowComparator makeComparator() {
-        RowComparator comparator = null;
-        for (int i = 0; i < columns.size(); i++) {
-            Column column = columns.get(i);
-
-            RowComparator newComparator = new RowComparator(column, sortOrders.get(i));
-
-            if (comparator == null) {
-                comparator = newComparator;
-            } else {
-                comparator.append(newComparator);
-            }
-        }
-        return comparator;
     }
 
 }
