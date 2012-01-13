@@ -1,6 +1,8 @@
 package pl.pplcanfly.datatables;
 
-class Processors {
+final class Processors {
+    private Processors() {}
+
     public static RowsProcessor filter(ServerSideDataTable dataTable, RequestParams params) {
         return new Filter(dataTable.getColumns(params.getSearchableCols()), params.getSearch());
     }
