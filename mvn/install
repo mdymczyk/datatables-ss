@@ -1,0 +1,3 @@
+#build project with gradle first (together with sources jar)
+
+mvn install:install-file -Dfile=../build/libs/datatables-ss-0.0.1.jar -Dsources=../build/libs/datatables-ss-0.0.1-sources.jar -DpomFile=pom.xml
