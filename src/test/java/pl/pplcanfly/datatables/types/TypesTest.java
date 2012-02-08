@@ -11,6 +11,7 @@ public class TypesTest {
         assertThat(Types.text()).isInstanceOf(TextType.class);
         assertThat(Types.numeric()).isInstanceOf(ComparableType.class);
         assertThat(Types.date()).isInstanceOf(DateType.class);
+        assertThat(Types.bool()).isInstanceOf(BooleanType.class);
     }
 
 }

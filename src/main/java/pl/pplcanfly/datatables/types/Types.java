@@ -16,4 +16,8 @@ public final class Types {
         return new DateType();
     }
 
+    public static Type bool() {
+    	return new BooleanType();
+    }
+
 }
